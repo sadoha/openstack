@@ -1,0 +1,8 @@
+---
+- name: Set up the message broker that facilitates asynchronous communication between different applications or services
+  hosts: controller-node
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - rabbitmq

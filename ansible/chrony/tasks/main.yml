@@ -1,7 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 ---
 - name: Install required packages
-  apt:
+  ansible.builtin.apt:
     name: 
       - chrony
     state: present

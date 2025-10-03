@@ -1,3 +1,17 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for etcd
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - etcd-server
+    state: present
+
+- name: Copy Etcd configuration file to controller node
+  ansible.builtin.copy:
+    src: etcd
+    dest: /etc/default/etcd
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Etcd

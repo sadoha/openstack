@@ -1,0 +1,8 @@
+---
+- name: Set up the strongly consistent key-value store
+  hosts: controller-node
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - etcd

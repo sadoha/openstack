@@ -1,3 +1,34 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for rabbitmq
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - rabbitmq-server
+    state: present
+
+- name: Copy Rabbitmq configuration file to controller node
+  ansible.builtin.copy:
+    src: rabbitmq-env.conf
+    dest: /etc/rabbitmq/rabbitmq-env.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Rabbitmq
+
+- name: Check if user openstack exist
+  ansible.builtin.shell: rabbitmqctl list_users | grep openstack
+  become: yes
+  register: user_status
+  changed_when: false
+  ignore_errors: yes
+
+- name: Add the openstack user
+  ansible.builtin.shell: rabbitmqctl add_user openstack RABBIT_PASS
+  become: yes
+  when: user_status.failed == true
+
+- name: Permit configuration, write, and read access for the openstack user
+  ansible.builtin.shell: rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+  become: yes
+  when: user_status.failed == true

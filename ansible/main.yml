@@ -6,3 +6,7 @@
   import_playbook: chrony.yml
 - name: Set up the in-memory key-value store system
   import_playbook: memcached.yml
+- name: Set up the strongly consistent key-value store
+  import_playbook: etcd.yml
+- name: Set up the message broker that facilitates asynchronous communication between different applications or services
+  import_playbook: rabbitmq.yml

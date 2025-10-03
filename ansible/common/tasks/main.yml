@@ -6,7 +6,7 @@
     state: disabled
 
 - name: Update apt cache and upgrade packages
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
     upgrade: yes
   tags:
@@ -30,7 +30,7 @@
     - common
 
 - name: Install required packages
-  apt:
+  ansible.builtin.apt:
     name: 
       - vim
       - curl

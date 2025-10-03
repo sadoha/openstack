@@ -2,18 +2,17 @@
 ---
 # tasks file for memcached
 - name: Install required packages
-  apt:
+  ansible.builtin.apt:
     name:
       - memcached 
       - python3-memcache
     state: present
 
-#- name: Copy Memcached configuration file to controller node
-#  ansible.builtin.copy:
-#    src: memcached.conf
-#    dest: /etc/memcached.conf
-#    owner: root
-#    group: root
-#    mode: '0644'
-#  when: "'controller' in group_names"
-#  notify: Restart Memcached
+- name: Copy Memcached configuration file to controller node
+  ansible.builtin.copy:
+    src: memcached.conf
+    dest: /etc/memcached.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Memcached
