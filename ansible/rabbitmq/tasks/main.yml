@@ -24,7 +24,7 @@
   ignore_errors: yes
 
 - name: Add the openstack user
-  ansible.builtin.shell: rabbitmqctl add_user openstack RABBIT_PASS
+  ansible.builtin.shell: rabbitmqctl add_user openstack "{{ rabbitmq_password }}"
   become: yes
   when: user_status.failed == true
 
