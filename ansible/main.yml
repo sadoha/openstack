@@ -3,4 +3,4 @@
 - name: Set up common tools and applications 
   import_playbook: common.yml
 - name: Set up the Network Time Protocol (NTP) client and server
-  import_playbook: chrony.yaml
+  import_playbook: chrony.yml
