@@ -6,12 +6,22 @@
       - chrony
     state: present
 
-- name: Copy Chrony configuration file
+- name: Copy Chrony configuration file to controller node
   ansible.builtin.copy:
-    src: chrony.conf
+    src: controller-node-chrony.conf
     dest: /etc/chrony/chrony.conf
     owner: root
     group: root
     mode: '0644'
+  when: "'controller' in group_names"
   notify: Restart Chrony
 
+- name: Copy Chrony configuration file to compute nodes
+  ansible.builtin.copy:
+    src: compute-nodes-chrony.conf
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: "'compute' in group_names"
+  notify: Restart Chrony
