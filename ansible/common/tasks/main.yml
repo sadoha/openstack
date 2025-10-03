@@ -24,3 +24,18 @@
   with_items: "{{ groups.cluster }}"
   tags:
     - common
+
+- name: Install required packages
+  apt:
+    name: 
+      - vim
+      - curl
+      - wget
+      - telnet
+      - locales
+      - dnsutils
+      - net-tools
+    state: present
+  tags:
+    - common
+    - locale
