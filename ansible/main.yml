@@ -1,8 +1,4 @@
 ---
 # file: main.yml
-- name: Setup Kubernetes Dependencies 
+- name: Set up common tools and applications 
   import_playbook: common.yml
-- name: Initialize Kubernetes Control Planes
-  import_playbook: control-plane.yml
-- name: Initialize Kubernetes Workers 
-  import_playbook: workers.yml
