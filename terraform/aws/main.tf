@@ -185,7 +185,7 @@ resource "aws_instance" "jumphost" {
     Name = "jumphost"
   }
 }
-/*
+
 resource "aws_instance" "controller_node_01" {
   ami                         = "ami-0360c520857e3138f"
   #  instance_type               = "t2.medium"
@@ -205,7 +205,7 @@ resource "aws_instance" "controller_node_01" {
     Name = "controller-node-01"
   }
 }
-
+/*
 resource "aws_instance" "compute_node_01" {
   ami                         = "ami-0360c520857e3138f"
   #  instance_type               = "t2.small"
