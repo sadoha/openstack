@@ -205,11 +205,11 @@ resource "aws_instance" "controller_node_01" {
     Name = "controller-node-01"
   }
 }
-/*
+
 resource "aws_instance" "compute_node_01" {
   ami                         = "ami-0360c520857e3138f"
-  #  instance_type               = "t2.small"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.medium"
+  # instance_type               = "t2.micro"
   key_name                    = aws_key_pair.main.key_name
   private_ip                  = "10.0.1.31"
   subnet_id                   = aws_subnet.private_subnet[0].id
@@ -225,4 +225,3 @@ resource "aws_instance" "compute_node_01" {
     Name = "compute-node-01"
   }
 }
-*/
