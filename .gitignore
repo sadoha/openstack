@@ -71,15 +71,9 @@ terraform.rc
 
 # Ignore private SSH keys
 
-#private_ssh_key
-#private_ssh_key_*
-#private_ssh_key_*.*
-#**/private_ssh_key
-#**/private_ssh_key_*
-#**/private_ssh_key_*.*
-#**/**/private_ssh_key
-#**/**/private_ssh_key_*
-#**/**/private_ssh_key_*.*
+**/**/private_ssh_key
+**/**/private_ssh_key_*
+**/**/private_ssh_key_*.*
 
 # Credentials or sensitive variables
 vaults.yml
