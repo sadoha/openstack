@@ -1,3 +1,26 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for common
+- name: Update apt cache and upgrade packages
+  apt:
+    update_cache: yes
+    upgrade: yes
+  tags:
+    - common
+
+- name: Update hostnames
+  hostname:
+    name: "{{ ansible_host_name }}"
+  tags:
+    - common
+
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{ item }}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.cluster }}"
+  tags:
+    - common

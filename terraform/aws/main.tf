@@ -205,7 +205,7 @@ resource "aws_instance" "controller_node_01" {
     Name = "controller-node-01"
   }
 }
-/*
+
 resource "aws_instance" "compute_node_01" {
   ami                         = "ami-0360c520857e3138f"
   #  instance_type               = "t2.small"
@@ -219,10 +219,9 @@ resource "aws_instance" "compute_node_01" {
     volume_type = "standard"
     encrypted   = false
   }
-  user_data = file("scripts/compute_node.sh")
+  ## user_data = file("scripts/compute_node.sh")
 
   tags = {
     Name = "compute-node-01"
   }
 }
-*/

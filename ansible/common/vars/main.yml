@@ -1,3 +1,5 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # vars file for common
+config_system_locale: 'en_US.UTF-8'
+config_system_language: 'en_US.UTF-8'
