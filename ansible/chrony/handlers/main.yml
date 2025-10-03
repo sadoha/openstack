@@ -1,3 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # handlers file for chrony
+- name: Restart Chrony
+  ansible.builtin.service:
+    name: chrony
+    state: restarted

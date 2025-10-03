@@ -1,3 +1,12 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for chrony
+- name: Copy Chrony configuration file
+  ansible.builtin.copy:
+    src: chrony.conf
+    dest: /etc/chrony/chrony.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Chrony
+

@@ -1,0 +1,8 @@
+---
+- name: Set up common tools and applications
+  hosts: cluster
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - chrony
