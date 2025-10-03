@@ -1,0 +1,8 @@
+---
+- name: Set up the in-memory key-value store system
+  hosts: controller-node
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - memcached

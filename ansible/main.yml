@@ -4,3 +4,5 @@
   import_playbook: common.yml
 - name: Set up the Network Time Protocol (NTP) client and server
   import_playbook: chrony.yml
+- name: Set up the in-memory key-value store system
+  import_playbook: memcached.yml
