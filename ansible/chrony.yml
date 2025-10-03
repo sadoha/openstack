@@ -1,5 +1,5 @@
 ---
-- name: Set up common tools and applications
+- name: Set up the Network Time Protocol (NTP) client and server
   hosts: cluster
   become: true
   vars_files:
