@@ -1,6 +1,10 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for common
+- name: Disable UFW firewall
+  community.general.ufw:
+    state: disabled
+
 - name: Update apt cache and upgrade packages
   apt:
     update_cache: yes
