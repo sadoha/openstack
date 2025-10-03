@@ -160,10 +160,6 @@ resource "local_file" "private_key" {
   filename = "ssh-keys/private_ssh_key"
 }
 
-output "public_ssh_key" {
-  value = tls_private_key.ssh.public_key_openssh
-}
-
 resource "aws_key_pair" "main" {
   key_name   = "openstack"
   public_key = tls_private_key.ssh.public_key_openssh
