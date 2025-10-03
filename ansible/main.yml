@@ -10,3 +10,5 @@
   import_playbook: etcd.yml
 - name: Set up the message broker that facilitates asynchronous communication between different applications or services
   import_playbook: rabbitmq.yml
+- name: Set up the community-developed relational database
+  import_playbook: mariadb.yml

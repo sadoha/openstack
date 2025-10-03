@@ -1,3 +1,18 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for mariadb
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - mariadb-server 
+      - python3-pymysql
+    state: present
+
+- name: Copy Mariadb configuration file to controller node
+  ansible.builtin.copy:
+    src: 99-openstack.cnf
+    dest: /etc/mysql/mariadb.conf.d/99-openstack.cnf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Mariadb

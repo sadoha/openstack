@@ -1,0 +1,8 @@
+---
+- name: Set up the community-developed relational database
+  hosts: controller-node
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - mariadb

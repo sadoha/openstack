@@ -1,3 +1,8 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # handlers file for mariadb
+- name: Restart Mariadb
+  ansible.builtin.systemd:
+    name: mariadb
+    enabled: true
+    state: restarted
