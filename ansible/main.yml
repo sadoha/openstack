@@ -12,3 +12,5 @@
   import_playbook: rabbitmq.yml
 - name: Set up the community-developed relational database
   import_playbook: mariadb.yml
+- name: Set up the OpenStack Identity Service
+  import_playbook: keystone.yml

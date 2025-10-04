@@ -1,0 +1,16 @@
+---
+# tasks file for keystone
+- name: Create a new database with name 'keystone'
+  community.mysql.mysql_db:
+    name: keystone
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Cretae MySQL keystone user and password using socket
+  community.mysql.mysql_user:
+    name: keystone
+    host: '%'
+    password: "{{ mariadb_keystone_password }}"
+    priv: 'keystone.*:ALL,GRANT'
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
