@@ -15,4 +15,16 @@
     login_unix_socket: "{{ mysql_socket_path }}"
     state: present
 
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - keystone
+    state: present
 
+- name: Copy Keystone configuration file to controller node
+  ansible.builtin.copy:
+    src: keystone.conf 
+    dest: /etc/keystone/keystone.conf 
+    owner: root
+    group: root
+    mode: '0644'
