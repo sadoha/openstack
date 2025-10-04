@@ -5,6 +5,12 @@
   community.general.ufw:
     state: disabled
 
+- name: Execute add-apt-repository for cloud-archive:epoxy
+  ansible.builtin.shell: |
+    add-apt-repository -y cloud-archive:epoxy
+  args:
+    creates: /etc/apt/sources.list.d/cloudarchive-epoxy.list
+
 - name: Update apt cache and upgrade packages
   ansible.builtin.apt:
     update_cache: yes
@@ -40,6 +46,16 @@
       - dnsutils
       - net-tools
     state: present
+  tags:
+    - common
+    - locale
+
+- name: Install openstackclient
+  ansible.builtin.apt:
+    name:
+      - python3-openstackclient
+    state: present
+  when: "'controller' in group_names"
   tags:
     - common
     - locale

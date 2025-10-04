@@ -14,3 +14,5 @@
     priv: 'keystone.*:ALL,GRANT'
     login_unix_socket: "{{ mysql_socket_path }}"
     state: present
+
+
