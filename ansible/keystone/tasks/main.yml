@@ -31,12 +31,12 @@
 
 - name: Populate the identity service database
   command: su -s /bin/sh -c "keystone-manage db_sync" keystone
-  changed_when: false
 
 - name: Initialize Fernet key repositories fernet_setup
   command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
-  changed_when: false
 
 - name: Initialize Fernet key repositories credential_setup
   command: keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
-  changed_when: false
+
+- name: Bootstrap the Identity service
+  command: keystone-manage bootstrap --bootstrap-password "{{ keystone_bootstrap_password }}" --bootstrap-admin-url http://controller-node-01:35357/v3/ --bootstrap-internal-url http://controller-node-01:5000/v3/ --bootstrap-public-url http://controller-node-01:5000/v3/ --bootstrap-region-id RegionOne
