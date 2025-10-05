@@ -103,11 +103,19 @@ resource "aws_security_group" "public_sg" {
   description = "public security group"
   vpc_id = aws_vpc.main.id
 
+  ## ingress {
+  ##  description = "SSH"
+  ##  from_port = 22
+  ##  to_port = 22
+  ##  protocol = "tcp"
+  ##  cidr_blocks = ["0.0.0.0/0"]
+  ##}
+
   ingress {
-    description = "SSH"
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    description = "Full access"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -156,8 +164,9 @@ resource "tls_private_key" "ssh" {
 }
 
 resource "local_file" "private_key" {
-  content  = tls_private_key.ssh.private_key_pem
-  filename = "ssh-keys/private_ssh_key"
+  content         = tls_private_key.ssh.private_key_pem
+  filename        = "ssh-keys/private_ssh_key"
+  file_permission = "0400"
 }
 
 resource "aws_key_pair" "main" {
@@ -205,7 +214,7 @@ resource "aws_instance" "controller_node_01" {
     Name = "controller-node-01"
   }
 }
-
+/*
 resource "aws_instance" "compute_node_01" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.medium"
@@ -225,3 +234,4 @@ resource "aws_instance" "compute_node_01" {
     Name = "compute-node-01"
   }
 }
+*/
