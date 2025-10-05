@@ -1,0 +1,16 @@
+---
+# tasks file for horizon
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - openstack-dashboard
+    state: present
+
+- name: Copy Dashboard configuration file to controller node
+  ansible.builtin.copy:
+    src: local_settings.py
+    dest: /etc/openstack-dashboard/local_settings.py
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Apache2

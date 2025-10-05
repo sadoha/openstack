@@ -28,15 +28,36 @@
     owner: root
     group: root
     mode: '0644'
+  register: copy_config_output
 
-#- name: Populate the identity service database
-#  command: su -s /bin/sh -c "keystone-manage db_sync" keystone
+- name: Populate the identity service database
+  command: su -s /bin/sh -c "keystone-manage db_sync" keystone
+  when: copy_config_output.changed|bool == true
 
-#- name: Initialize Fernet key repositories fernet_setup
-#  command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+- name: Initialize Fernet key repositories fernet_setup
+  command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+  when: copy_config_output.changed|bool == true
 
-#- name: Initialize Fernet key repositories credential_setup
-#  command: keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+- name: Initialize Fernet key repositories credential_setup
+  command: keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+  when: copy_config_output.changed|bool == true
 
-#- name: Bootstrap the Identity service
-#  command: keystone-manage bootstrap --bootstrap-password "{{ keystone_bootstrap_password }}" --bootstrap-admin-url http://controller:35357/v3/ --bootstrap-internal-url http://controller:5000/v3/ --bootstrap-public-url http://controller:5000/v3/ --bootstrap-region-id RegionOne
+- name: Bootstrap the Identity service
+  command: keystone-manage bootstrap --bootstrap-password "{{ keystone_bootstrap_password }}" --bootstrap-admin-url http://controller:35357/v3/ --bootstrap-internal-url http://controller:5000/v3/ --bootstrap-public-url http://controller:5000/v3/ --bootstrap-region-id RegionOne
+  when: copy_config_output.changed|bool == true
+
+- name: Ensure custom variables are in .bashrc
+  ansible.builtin.blockinfile:
+    path: /home/ubuntu/.bashrc
+    block: |
+      # Custom environment variables
+      export OS_USERNAME=admin
+      export OS_PASSWORD={{ keystone_bootstrap_password }}
+      export OS_BOOTSTRAP_PASSWORD={{ keystone_bootstrap_password }}
+      export OS_PROJECT_NAME=admin
+      export OS_USER_DOMAIN_NAME=Default
+      export OS_PROJECT_DOMAIN_NAME=Default
+      export OS_AUTH_URL=http://controller:5000/v3
+      export OS_IDENTITY_API_VERSION=3
+    state: present
+    create: yes 
