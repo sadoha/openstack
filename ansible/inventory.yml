@@ -1,22 +1,22 @@
 ---
 all:
   children:
-    controller-node:
+    controller:
       hosts:
-        controller-node-01:
+        controller:
           ansible_host: 10.0.1.11
-          ansible_host_name: controller-node-01
+          ansible_host_name: controller
 
-#    compute-nodes:
+#    computes:
 #      hosts:
-#        compute-node-01:
+#        compute-01:
 #          ansible_host: 10.0.1.31
-#          ansible_host_name: compute-node-01
+#          ansible_host_name: compute-01
 
     cluster:
       children:
-        controller-node: {}
-#        compute-nodes: {}
+        controller: {}
+#        computes: {}
   
   vars:
     ansible_become: true

@@ -8,7 +8,7 @@
 
 - name: Copy Chrony configuration file to controller node
   ansible.builtin.copy:
-    src: controller-node-chrony.conf
+    src: controller-chrony.conf
     dest: /etc/chrony/chrony.conf
     owner: root
     group: root
@@ -18,7 +18,7 @@
 
 - name: Copy Chrony configuration file to compute nodes
   ansible.builtin.copy:
-    src: compute-nodes-chrony.conf
+    src: compute-chrony.conf
     dest: /etc/chrony/chrony.conf
     owner: root
     group: root

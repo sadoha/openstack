@@ -1,6 +1,6 @@
 ---
 - name: Set up the in-memory key-value store system
-  hosts: controller-node
+  hosts: controller
   become: true
   vars_files:
     - vaults.yml
