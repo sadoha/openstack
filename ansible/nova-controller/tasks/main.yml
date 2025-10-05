@@ -1,0 +1,40 @@
+---
+# tasks file for nova-controller
+- name: Create a new database with name 'nova'
+  community.mysql.mysql_db:
+    name: nova
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Create a new database with name 'nova_api'
+  community.mysql.mysql_db:
+    name: nova_api
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Create a new database with name 'nova_cell0'
+  community.mysql.mysql_db:
+    name: nova_cell0
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Cretae MySQL Nova user and password using socket
+  community.mysql.mysql_user:
+    name: nova
+    host: '%'
+    password: "{{ mariadb_nova_password }}"
+    priv: 
+      'nova.*': 'ALL,GRANT'
+      'nova_api.*': 'ALL,GRANT'
+      'nova_cell0.*': 'ALL,GRANT'
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - nova-api 
+      - nova-conductor 
+      - nova-novncproxy 
+      - nova-scheduler
+    state: present
