@@ -102,7 +102,8 @@ CACHES = {
 # If you use ``tox -e runserver`` for developments,then configure
 # SESSION_ENGINE to django.contrib.sessions.backends.signed_cookies
 # as shown below:
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 
 # Send email to the console by default
@@ -118,7 +119,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 OPENSTACK_HOST = "controller"
 OPENSTACK_KEYSTONE_URL = "http://%s:5000/identity/v3" % OPENSTACK_HOST
-#OPENSTACK_KEYSTONE_URL = "http://%s/identity/v3" % OPENSTACK_HOST
 
 # The timezone of the server. This should correspond with the timezone
 # of your entire OpenStack installation, and hopefully be in UTC.
@@ -418,7 +418,6 @@ OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "Default"
 
 # If you chose networking option 1, disable support for layer-3 networking services
 OPENSTACK_NEUTRON_NETWORK = {
-    ...
     'enable_router': False,
     'enable_quotas': False,
     'enable_ipv6': False,
