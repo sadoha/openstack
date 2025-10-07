@@ -73,6 +73,18 @@
     executable: /bin/sh
   when: install_nova_output.changed|bool == true
 
-#- name: Populate the Image service database
-#  ansible.builtin.command: su -s /bin/sh -c "placement-manage db sync" placement
-#  when: mysql_db_output.changed|bool == true and install_nova_output.changed|bool == true
+- name: Populate the nova-api database
+  ansible.builtin.command: su -s /bin/sh -c "nova-manage api_db sync" nova
+  when: mysql_db_output.changed|bool == true and install_nova_output.changed|bool == true
+
+- name: Register the cell0 database
+  ansible.builtin.command: su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
+  when: mysql_db_output.changed|bool == true and install_nova_output.changed|bool == true
+
+- name: Create the cell1 cell
+  ansible.builtin.command: su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
+  when: mysql_db_output.changed|bool == true and install_nova_output.changed|bool == true
+
+- name: Populate the nova database
+  ansible.builtin.command: su -s /bin/sh -c "nova-manage db sync" nova
+  when: mysql_db_output.changed|bool == true and install_nova_output.changed|bool == true
