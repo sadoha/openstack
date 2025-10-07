@@ -24,6 +24,7 @@ all:
     mysql_socket_path:            '/var/run/mysqld/mysqld.sock'
     rabbitmq_password:            'pElentEngOwn'
     mariadb_keystone_password:    'SRSc3tCW5xHg'
-    mariadb_nova_password:        'cyLkH85VY9nV'
     mariadb_glance_password:      '75Bnr38DPDTu'
     keystone_bootstrap_password:  'CW5xHgpElent'
+    mariadb_placement_password:   'WnyZqhZ75F6m'
+    mariadb_nova_password:        'cyLkH85VY9nV'

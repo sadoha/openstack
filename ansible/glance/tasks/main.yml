@@ -17,10 +17,6 @@
     login_unix_socket: "{{ mysql_socket_path }}"
     state: present
 
-- name: Populate the Image service database
-  ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
-  when: mysql_db_output.changed|bool == true
-
 - name: Install required packages
   ansible.builtin.apt:
     name:
@@ -56,6 +52,10 @@
   args:
     executable: /bin/sh
   when: install_glance_output.changed|bool == true
+
+- name: Populate the Image service database
+  ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
+  when: mysql_db_output.changed|bool == true and install_glance_output.changed|bool == true
 
 #- name: Register quota limits
 #  ansible.builtin.shell: |

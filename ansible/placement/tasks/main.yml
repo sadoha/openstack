@@ -1,0 +1,58 @@
+---
+# tasks file for placement
+- name: Create a new database with name 'placement'
+  community.mysql.mysql_db:
+    name: placement
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+  register: mysql_db_output
+
+- name: Cretae MySQL Placement user and password using socket
+  community.mysql.mysql_user:
+    name: placement
+    host: '%'
+    password: "{{ mariadb_placement_password }}"
+    priv:
+      'placement.*': 'ALL,GRANT'
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - placement-api
+    state: present
+  register: install_glance_output
+
+- name: Copy glance-api configuration file to controller node
+  ansible.builtin.copy:
+    src: placement.conf
+    dest: /etc/placement/placement.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Apache2
+
+- name: Configure User and Endpoints
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack user create --domain default --password {{ mariadb_placement_password }}  placement
+    openstack role add --project admin --user placement admin
+    openstack service create --name placement --description "Placement API" placement
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true
+
+- name: Create the Placement API service endpoints
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint create --region RegionOne placement public http://controller:8778
+    openstack endpoint create --region RegionOne placement internal http://controller:8778
+    openstack endpoint create --region RegionOne placement admin http://controller:8778
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true
+
+- name: Populate the Image service database
+  ansible.builtin.command: su -s /bin/sh -c "placement-manage db sync" placement
+#  when: mysql_db_output.changed|bool == true and install_glance_output.changed|bool == true
