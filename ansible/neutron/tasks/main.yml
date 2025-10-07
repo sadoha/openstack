@@ -13,7 +13,7 @@
     host: '%'
     password: "{{ mariadb_neutron_password }}"
     priv:
-      'placement.*': 'ALL,GRANT'
+      'neutron.*': 'ALL,GRANT'
     login_unix_socket: "{{ mysql_socket_path }}"
     state: present
 
@@ -23,20 +23,56 @@
       - neutron-server 
       - neutron-plugin-ml2
       - neutron-openvswitch-agent 
-      - neutron-l3-agent 
       - neutron-dhcp-agent
       - neutron-metadata-agent
+#      - neutron-l3-agent 
     state: present
   register: install_neutron_output
 
-#- name: Copy neutron-api configuration file to controller node
-#  ansible.builtin.copy:
-#    src: placement.conf
-#    dest: /etc/placement/placement.conf
-#    owner: root
-#    group: root
-#    mode: '0644'
-#  notify: Restart Apache2
+- name: Copy neutron configuration file to controller node
+  ansible.builtin.copy:
+    src: neutron.conf
+    dest: /etc/neutron/neutron.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Nova API
+    - Restart Neutron Server
+    - Restart Neutron Openvswitch Agent
+    - Restart Neutron DHCP Agent
+    - Restart Neutron Metadata Agent
+#    - Restart Neutron L3 Agent
+
+- name: Copy ml2 configuration file to controller node
+  ansible.builtin.copy:
+    src: ml2_conf.ini
+    dest: /etc/neutron/plugins/ml2/ml2_conf.ini
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Nova API
+    - Restart Neutron Server
+    - Restart Neutron Openvswitch Agent
+    - Restart Neutron DHCP Agent
+    - Restart Neutron Metadata Agent
+#    - Restart Neutron L3 Agent
+
+- name: Copy metadata agent configuration file to controller node
+  ansible.builtin.copy:
+    src: metadata_agent.ini
+    dest: /etc/neutron/metadata_agent.ini
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Nova API
+    - Restart Neutron Server
+    - Restart Neutron Openvswitch Agent
+    - Restart Neutron DHCP Agent
+    - Restart Neutron Metadata Agent
+#    - Restart Neutron L3 Agent
 
 - name: Configure User and Endpoints
   ansible.builtin.shell: |
@@ -58,6 +94,6 @@
     executable: /bin/sh
   when: install_neutron_output.changed|bool == true
 
-#- name: Populate the Image service database
-#  ansible.builtin.command: su -s /bin/sh -c "placement-manage db sync" placement
-#  when: mysql_db_output.changed|bool == true and install_neutron_output.changed|bool == true
+- name: Populate the database
+  ansible.builtin.command: su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
+  when: mysql_db_output.changed|bool == true and install_neutron_output.changed|bool == true

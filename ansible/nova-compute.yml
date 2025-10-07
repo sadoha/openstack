@@ -1,0 +1,8 @@
+---
+- name: Set up the OpenStack Compute nova (compute node)
+  hosts: controller
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - nova-compute

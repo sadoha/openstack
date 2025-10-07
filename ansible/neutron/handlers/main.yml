@@ -1,2 +1,37 @@
 ---
 # handlers file for neutron
+- name: Restart Nova API
+  ansible.builtin.systemd:
+    name: nova-api
+    enabled: true
+    state: restarted
+
+- name: Restart Neutron Server
+  ansible.builtin.systemd:
+    name: neutron-server
+    enabled: true
+    state: restarted
+
+- name: Restart Neutron Openvswitch Agent
+  ansible.builtin.systemd:
+    name: neutron-openvswitch-agent
+    enabled: true
+    state: restarted
+
+- name: Restart Neutron DHCP Agent
+  ansible.builtin.systemd:
+    name: neutron-dhcp-agent
+    enabled: true
+    state: restarted
+
+- name: Restart Neutron Metadata Agent
+  ansible.builtin.systemd:
+    name: neutron-metadata-agent
+    enabled: true
+    state: restarted
+
+- name: Restart Neutron L3 Agent
+  ansible.builtin.systemd:
+    name: neutron-l3-agent
+    enabled: true
+    state: restarted

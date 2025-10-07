@@ -24,3 +24,5 @@
   import_playbook: nova-controller.yml
 - name: Set up the network connectivity as a service
   import_playbook: neutron.yml
+- name: Set up the OpenStack Compute nova (compute node)
+  import_playbook: nova-compute.yml

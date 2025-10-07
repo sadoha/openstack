@@ -1,0 +1,7 @@
+---
+# handlers file for nova-compute
+- name: Restart Nova Compute
+  ansible.builtin.systemd:
+    name: nova-compute
+    enabled: true
+    state: restarted
