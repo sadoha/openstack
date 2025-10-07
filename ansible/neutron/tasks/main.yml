@@ -1,0 +1,63 @@
+---
+# tasks file for neutron
+- name: Create a new database with name 'neutron'
+  community.mysql.mysql_db:
+    name: neutron
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+  register: mysql_db_output
+
+- name: Cretae MySQL Neutron user and password using socket
+  community.mysql.mysql_user:
+    name: neutron
+    host: '%'
+    password: "{{ mariadb_neutron_password }}"
+    priv:
+      'placement.*': 'ALL,GRANT'
+    login_unix_socket: "{{ mysql_socket_path }}"
+    state: present
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - neutron-server 
+      - neutron-plugin-ml2
+      - neutron-openvswitch-agent 
+      - neutron-l3-agent 
+      - neutron-dhcp-agent
+      - neutron-metadata-agent
+    state: present
+  register: install_neutron_output
+
+#- name: Copy neutron-api configuration file to controller node
+#  ansible.builtin.copy:
+#    src: placement.conf
+#    dest: /etc/placement/placement.conf
+#    owner: root
+#    group: root
+#    mode: '0644'
+#  notify: Restart Apache2
+
+- name: Configure User and Endpoints
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack user create --domain default --password {{ mariadb_neutron_password }} neutron
+    openstack role add --project admin --user neutron admin
+    openstack service create --name neutron --description "OpenStack Networking" network
+  args:
+    executable: /bin/sh
+  when: install_neutron_output.changed|bool == true
+
+- name: Create the Placement API service endpoints
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint create --region RegionOne network public http://controller:9696
+    openstack endpoint create --region RegionOne network internal http://controller:9696
+    openstack endpoint create --region RegionOne network admin http://controller:9696
+  args:
+    executable: /bin/sh
+  when: install_neutron_output.changed|bool == true
+
+#- name: Populate the Image service database
+#  ansible.builtin.command: su -s /bin/sh -c "placement-manage db sync" placement
+#  when: mysql_db_output.changed|bool == true and install_neutron_output.changed|bool == true

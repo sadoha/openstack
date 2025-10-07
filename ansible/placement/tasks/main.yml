@@ -22,9 +22,9 @@
     name:
       - placement-api
     state: present
-  register: install_glance_output
+  register: install_placement_output
 
-- name: Copy glance-api configuration file to controller node
+- name: Copy placement-api configuration file to controller node
   ansible.builtin.copy:
     src: placement.conf
     dest: /etc/placement/placement.conf
@@ -41,7 +41,7 @@
     openstack service create --name placement --description "Placement API" placement
   args:
     executable: /bin/sh
-  when: install_glance_output.changed|bool == true
+  when: install_placement_output.changed|bool == true
 
 - name: Create the Placement API service endpoints
   ansible.builtin.shell: |
@@ -51,8 +51,8 @@
     openstack endpoint create --region RegionOne placement admin http://controller:8778
   args:
     executable: /bin/sh
-  when: install_glance_output.changed|bool == true
+  when: install_placement_output.changed|bool == true
 
 - name: Populate the Image service database
   ansible.builtin.command: su -s /bin/sh -c "placement-manage db sync" placement
-#  when: mysql_db_output.changed|bool == true and install_glance_output.changed|bool == true
+  when: mysql_db_output.changed|bool == true and install_placement_output.changed|bool == true

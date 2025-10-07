@@ -20,5 +20,7 @@
   import_playbook: glance.yml
 - name: Set up the placement API service
   import_playbook: placement.yml
-#- name: Set up the OpenStack Compute nova (controller node)
-#  import_playbook: nova-controller.yml
+- name: Set up the OpenStack Compute nova (controller node)
+  import_playbook: nova-controller.yml
+- name: Set up the network connectivity as a service
+  import_playbook: neutron.yml

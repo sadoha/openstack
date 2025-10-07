@@ -1,2 +1,25 @@
 ---
 # handlers file for nova-controller
+- name: Restart Nova API
+  ansible.builtin.systemd:
+    name: nova-api
+    enabled: true
+    state: restarted
+
+- name: Restart Nova Scheduler
+  ansible.builtin.systemd:
+    name: nova-scheduler
+    enabled: true
+    state: restarted
+
+- name: Restart Nova Conductor
+  ansible.builtin.systemd:
+    name: nova-conductor
+    enabled: true
+    state: restarted
+
+- name: Restart Nova Novncproxy
+  ansible.builtin.systemd:
+    name: nova-novncproxy
+    enabled: true
+    state: restarted
