@@ -18,5 +18,5 @@
   import_playbook: horizon.yml
 - name: Set up the image service glance
   import_playbook: glance.yml
-- name: Set up the OpenStack Compute nova (controller node)
-  import_playbook: nova-controller.yml
+#- name: Set up the OpenStack Compute nova (controller node)
+#  import_playbook: nova-controller.yml

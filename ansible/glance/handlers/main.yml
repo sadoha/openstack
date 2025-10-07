@@ -1,2 +1,7 @@
 ---
 # handlers file for glance
+- name: Restart Glance API
+  ansible.builtin.systemd:
+    name: glance-api
+    enabled: true
+    state: restarted

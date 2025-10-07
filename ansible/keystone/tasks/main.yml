@@ -48,7 +48,7 @@
 
 - name: Ensure custom variables are in .bashrc
   ansible.builtin.blockinfile:
-    path: /home/ubuntu/.bashrc
+    path: /root/.bashrc
     block: |
       # Custom environment variables
       export OS_USERNAME=admin
