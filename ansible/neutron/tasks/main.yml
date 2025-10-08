@@ -25,11 +25,11 @@
       - neutron-openvswitch-agent 
       - neutron-dhcp-agent
       - neutron-metadata-agent
-#      - neutron-l3-agent 
+      - neutron-l3-agent 
     state: present
   register: install_neutron_output
 
-- name: Copy neutron configuration file to controller node
+- name: Copy the neutron configuration file to controller node
   ansible.builtin.copy:
     src: neutron.conf
     dest: /etc/neutron/neutron.conf
@@ -42,9 +42,9 @@
     - Restart Neutron Openvswitch Agent
     - Restart Neutron DHCP Agent
     - Restart Neutron Metadata Agent
-#    - Restart Neutron L3 Agent
+    - Restart Neutron L3 Agent
 
-- name: Copy ml2 configuration file to controller node
+- name: Copy the ml2 configuration file to controller node
   ansible.builtin.copy:
     src: ml2_conf.ini
     dest: /etc/neutron/plugins/ml2/ml2_conf.ini
@@ -57,9 +57,9 @@
     - Restart Neutron Openvswitch Agent
     - Restart Neutron DHCP Agent
     - Restart Neutron Metadata Agent
-#    - Restart Neutron L3 Agent
+    - Restart Neutron L3 Agent
 
-- name: Copy metadata agent configuration file to controller node
+- name: Copy the metadata agent configuration file to controller node
   ansible.builtin.copy:
     src: metadata_agent.ini
     dest: /etc/neutron/metadata_agent.ini
@@ -72,7 +72,37 @@
     - Restart Neutron Openvswitch Agent
     - Restart Neutron DHCP Agent
     - Restart Neutron Metadata Agent
-#    - Restart Neutron L3 Agent
+    - Restart Neutron L3 Agent
+
+- name: Copy the openvswitch agent configuration file to controller node
+  ansible.builtin.copy:
+    src: openvswitch_agent.ini
+    dest: /etc/neutron/plugins/ml2/openvswitch_agent.ini
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Nova API
+    - Restart Neutron Server
+    - Restart Neutron Openvswitch Agent
+    - Restart Neutron DHCP Agent
+    - Restart Neutron Metadata Agent
+    - Restart Neutron L3 Agent
+
+- name: Copy the dhcp agent configuration file to controller node
+  ansible.builtin.copy:
+    src: dhcp_agent.ini
+    dest: /etc/neutron/dhcp_agent.ini
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Nova API
+    - Restart Neutron Server
+    - Restart Neutron Openvswitch Agent
+    - Restart Neutron DHCP Agent
+    - Restart Neutron Metadata Agent
+    - Restart Neutron L3 Agent
 
 - name: Configure User and Endpoints
   ansible.builtin.shell: |
