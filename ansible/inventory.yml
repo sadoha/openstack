@@ -7,16 +7,16 @@ all:
           ansible_host: 10.0.1.11
           ansible_host_name: controller
 
-#    computes:
-#      hosts:
-#        compute-01:
-#          ansible_host: 10.0.1.31
-#          ansible_host_name: compute-01
+    computes:
+      hosts:
+        compute-01:
+          ansible_host: 10.0.1.31
+          ansible_host_name: compute-01
 
     cluster:
       children:
         controller: {}
-#        computes: {}
+        computes: {}
   
   vars:
     ansible_become: true

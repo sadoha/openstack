@@ -7,14 +7,23 @@
     state: present
   register: install_nova_output
 
-#- name: Copy Nova configuration file to controller node
-#  ansible.builtin.copy:
-#    src: nova.conf
-#    dest: /etc/nova/nova.conf
-#    owner: root
-#    group: root
-#    mode: '0644'
-#  notify: Restart Nova Compute
+- name: Copy Nova configuration file to controller node
+  ansible.builtin.copy:
+    src: nova.conf
+    dest: /etc/nova/nova.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Nova Compute
+
+- name: Copy Nova Compute configuration file to controller node
+  ansible.builtin.copy:
+    src: nova-compute.conf
+    dest: /etc/nova/nova-compute.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Nova Compute
 
 #- name: Configure User and Endpoints
 #  ansible.builtin.shell: |
