@@ -197,7 +197,7 @@ resource "aws_instance" "jumphost" {
 
 resource "aws_instance" "controller" {
   ami                         = "ami-0360c520857e3138f"
-  instance_type               = "t2.large"
+  instance_type               = "t2.xlarge" #t2.2xlarge"
   key_name                    = aws_key_pair.main.key_name
   private_ip                  = "10.0.1.11"
   subnet_id                   = aws_subnet.private_subnet[0].id
@@ -213,10 +213,10 @@ resource "aws_instance" "controller" {
     Name = "controller"
   }
 }
-/*
+
 resource "aws_instance" "compute_01" {
   ami                         = "ami-0360c520857e3138f"
-  instance_type               = "t2.medium"
+  instance_type               = "t2.large"
   key_name                    = aws_key_pair.main.key_name
   private_ip                  = "10.0.1.31"
   subnet_id                   = aws_subnet.private_subnet[0].id
@@ -232,4 +232,3 @@ resource "aws_instance" "compute_01" {
     Name = "compute-01"
   }
 }
-*/
