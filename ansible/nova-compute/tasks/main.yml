@@ -24,28 +24,3 @@
     group: root
     mode: '0644'
   notify: Restart Nova Compute
-
-#- name: Configure User and Endpoints
-#  ansible.builtin.shell: |
-#    . /root/.bashrc
-#    openstack user create --domain default --password {{ mariadb_nova_password }} nova
-#    openstack role add --project admin --user nova admin
-#    openstack service create --name nova --description "OpenStack Compute" compute
-#  args:
-#    executable: /bin/sh
-#  when: install_nova_output.changed|bool == true
-
-#- name: Create the Placement API service endpoints
-#  ansible.builtin.shell: |
-#    . /root/.bashrc
-#    openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1
-#    openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1
-#    openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1
-#  args:
-#    executable: /bin/sh
-#  when: install_nova_output.changed|bool == true
-
-#- name: Populate the nova-api database
-#  ansible.builtin.command: su -s /bin/sh -c "nova-manage api_db sync" nova
-#  when: mysql_db_output.changed|bool == true and install_nova_output.changed|bool == true
-
