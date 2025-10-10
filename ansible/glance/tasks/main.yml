@@ -38,6 +38,7 @@
     . /root/.bashrc 
     openstack user create --domain default --password {{ mariadb_glance_password }} glance 
     openstack role add --project admin --user glance admin
+    openstack role add --user glance --user-domain Default --system all reader
     openstack service create --name glance --description "OpenStack Image" image
   args:
     executable: /bin/sh
@@ -49,6 +50,7 @@
     openstack endpoint create --region RegionOne image public http://controller:9292
     openstack endpoint create --region RegionOne image internal http://controller:9292
     openstack endpoint create --region RegionOne image admin http://controller:9292
+    openstack endpoint list --service glance --region RegionOne
   args:
     executable: /bin/sh
   when: install_glance_output.changed|bool == true
@@ -57,15 +59,19 @@
   ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
   when: mysql_db_output.changed|bool == true and install_glance_output.changed|bool == true
 
-#- name: Register quota limits
-#  ansible.builtin.shell: |
-#    . /root/.bashrc
-#    openstack --os-cloud devstack-system-admin registered limit create --service glance --default-limit 1000 --region RegionOne image_size_total
-#    openstack --os-cloud devstack-system-admin registered limit create --service glance --default-limit 1000 --region RegionOne image_stage_total
-#    openstack --os-cloud devstack-system-admin registered limit create --service glance --default-limit 100 --region RegionOne image_count_total
-#    openstack --os-cloud devstack-system-admin registered limit create --service glance --default-limit 100 --region RegionOne image_count_uploading
-#  args:
-#    executable: /bin/sh
-#  when: install_glance_output.changed|bool == true
+- name: Register quota limits
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack registered limit create --service glance --default-limit 1000 --region RegionOne image_size_total
+    openstack registered limit create --service glance --default-limit 1000 --region RegionOne image_stage_total
+    openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_total
+    openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_uploading
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true
 #
 # openstack catalog list ; openstack service list ; openstack endpoint list
+#
+#
+# oslo_limit.endpoint_id
+# openstack endpoint list | grep public | grep image | awk -F "|" '{print $2}'

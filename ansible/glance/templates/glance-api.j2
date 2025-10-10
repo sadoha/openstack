@@ -1717,7 +1717,7 @@ enabled_backends=fs:file
 #allow_headers = Content-MD5,X-Image-Meta-Checksum,X-Storage-Token,Accept-Encoding,X-Auth-Token,X-Identity-Status,X-Roles,X-Service-Catalog,X-User-Id,X-Tenant-Id,X-OpenStack-Request-ID
 
 [database]
-connection = mysql+pymysql://glance:75Bnr38DPDTu@controller/glance
+connection = mysql+pymysql://glance:{{ mariadb_glance_password }}@controller/glance
 
 #
 # From oslo.db
@@ -5031,9 +5031,9 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = admin
+project_name = {{ project_name }}
 username = glance
-password = 75Bnr38DPDTu
+password = {{ mariadb_glance_password }}
 
 #
 # From keystonemiddleware.auth_token
@@ -5254,8 +5254,8 @@ auth_type = password
 user_domain_id = default
 username = glance
 system_scope = all
-password = 75Bnr38DPDTu
-endpoint_id = e6a26bb434934108bd35564f887cabeb
+password = {{ mariadb_glance_password }}
+endpoint_id = 0fdf239867094d48b5285f8017eaf92d
 region_name = RegionOne
 
 #
