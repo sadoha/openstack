@@ -503,7 +503,7 @@ lock_path = /var/lock/nova
 # This option has a sample default set, which means that
 # its actual default value may vary from the one documented
 # below.
-my_ip = 10.0.1.31
+my_ip = {{ ansible_host }} 
 
 #
 # The IP address which is used to connect to the block storage network. For more
@@ -853,7 +853,7 @@ state_path = /var/lib/nova
 # The network address and optional user credentials for connecting to the
 # messaging backend, in URL format. The expected format is. For more
 # information, refer to the documentation. (string value)
-transport_url = rabbit://openstack:pElentEngOwn@controller:5672/
+transport_url = rabbit://openstack:{{ rabbitmq_password }}@controller:5672/
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option (string value)
@@ -2890,9 +2890,9 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = admin
+project_name = {{ project_name }}
 username = nova
-password = cyLkH85VY9nV
+password = {{ mariadb_keystone_password }}
 #
 # From keystonemiddleware.auth_token
 #
@@ -3886,11 +3886,11 @@ auth_type = password
 project_domain_name = Default
 user_domain_name = Default
 region_name = RegionOne
-project_name = admin
+project_name = {{ project_name }}
 username = neutron
-password = jet7fbJP7FHx
+password = {{ mariadb_neutron_password }}
 service_metadata_proxy = true
-metadata_proxy_shared_secret = R3n6jAYDy8w3
+metadata_proxy_shared_secret = {{ metadata_proxy_shared_secret }}
 
 #
 # Configuration options for neutron (network connectivity as a service).
@@ -4904,12 +4904,12 @@ lock_path = /var/lib/nova/tmp
 [placement]
 region_name = RegionOne
 project_domain_name = Default
-project_name = admin
+project_name = {{ project_name }}
 auth_type = password
 user_domain_name = Default
 auth_url = http://controller:5000/v3
 username = placement
-password = WnyZqhZ75F6m
+password = {{ mariadb_placement_password }}
 
 #
 # From nova.conf
@@ -5404,10 +5404,10 @@ auth_url = https://controller/identity
 auth_strategy = keystone
 auth_type = password
 project_domain_name = Default
-project_name = admin
+project_name = {{ project_name }}
 user_domain_name = Default
 username = nova
-password = cyLkH85VY9nV
+password = {{ mariadb_nova_password }}
 #
 # Configuration options for service to service authentication using a service
 # token. These options allow sending a service token along with the user's token
