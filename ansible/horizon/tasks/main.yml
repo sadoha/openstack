@@ -7,8 +7,8 @@
     state: present
 
 - name: Copy Dashboard configuration file to controller node
-  ansible.builtin.copy:
-    src: local_settings.py
+  ansible.builtin.template:
+    src: local_settings.j2
     dest: /etc/openstack-dashboard/local_settings.py
     owner: root
     group: root

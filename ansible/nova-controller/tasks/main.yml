@@ -41,8 +41,8 @@
   register: install_nova_output
 
 - name: Copy Nova configuration file to controller node
-  ansible.builtin.copy:
-    src: nova.conf
+  ansible.builtin.template:
+    src: nova.j2
     dest: /etc/nova/nova.conf
     owner: root
     group: root

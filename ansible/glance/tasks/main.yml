@@ -25,8 +25,8 @@
   register: install_glance_output
 
 - name: Copy glance-api configuration file to controller node
-  ansible.builtin.copy:
-    src: glance-api.conf
+  ansible.builtin.template:
+    src: glance-api.j2
     dest: /etc/glance/glance-api.conf
     owner: root
     group: root

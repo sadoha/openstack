@@ -9,8 +9,8 @@
     state: present
 
 - name: Copy Mariadb configuration file to controller node
-  ansible.builtin.copy:
-    src: 99-openstack.cnf
+  ansible.builtin.template:
+    src: 99-openstack.j2
     dest: /etc/mysql/mariadb.conf.d/99-openstack.cnf
     owner: root
     group: root

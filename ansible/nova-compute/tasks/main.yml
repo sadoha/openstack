@@ -21,7 +21,7 @@
   ansible.builtin.command: egrep -c '(vmx|svm)' /proc/cpuinfo
   register: check_hardware_acceleration
   ignore_errors: yes
-  when: install_nova_output|bool == true
+  when: install_nova_output.changed|bool == true
 
 - name: Copy Nova Compute configuration file to controller node
   ansible.builtin.template:
@@ -30,5 +30,5 @@
     owner: root
     group: root
     mode: '0644'
-  when: install_nova_output|bool == true and check_hardware_acceleration.stdout == "0"
+  when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
   notify: Restart Nova Compute

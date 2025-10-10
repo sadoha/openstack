@@ -8,8 +8,8 @@
     state: present
 
 - name: Copy Rabbitmq configuration file to controller node
-  ansible.builtin.copy:
-    src: rabbitmq-env.conf
+  ansible.builtin.template:
+    src: rabbitmq-env.j2
     dest: /etc/rabbitmq/rabbitmq-env.conf
     owner: root
     group: root

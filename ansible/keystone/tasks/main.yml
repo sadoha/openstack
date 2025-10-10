@@ -22,8 +22,8 @@
     state: present
 
 - name: Copy Keystone configuration file to controller node
-  ansible.builtin.copy:
-    src: keystone.conf 
+  ansible.builtin.template:
+    src: keystone.j2 
     dest: /etc/keystone/keystone.conf 
     owner: root
     group: root

@@ -9,8 +9,8 @@
     state: present
 
 - name: Copy Memcached configuration file to controller node
-  ansible.builtin.copy:
-    src: memcached.conf
+  ansible.builtin.template:
+    src: memcached.j2
     dest: /etc/memcached.conf
     owner: root
     group: root
