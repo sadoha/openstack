@@ -37,12 +37,7 @@
     group: root
     mode: '0644'
   notify:
-    - Restart Nova API
-    - Restart Neutron Server
-    - Restart Neutron Openvswitch Agent
-    - Restart Neutron DHCP Agent
-    - Restart Neutron Metadata Agent
-    - Restart Neutron L3 Agent
+    - Restart All Services
 
 - name: Copy the ml2 configuration file to controller node
   ansible.builtin.template:
@@ -52,12 +47,7 @@
     group: root
     mode: '0644'
   notify:
-    - Restart Nova API
-    - Restart Neutron Server
-    - Restart Neutron Openvswitch Agent
-    - Restart Neutron DHCP Agent
-    - Restart Neutron Metadata Agent
-    - Restart Neutron L3 Agent
+    - Restart All Services
 
 - name: Copy the metadata agent configuration file to controller node
   ansible.builtin.template:
@@ -67,12 +57,7 @@
     group: root
     mode: '0644'
   notify:
-    - Restart Nova API
-    - Restart Neutron Server
-    - Restart Neutron Openvswitch Agent
-    - Restart Neutron DHCP Agent
-    - Restart Neutron Metadata Agent
-    - Restart Neutron L3 Agent
+    - Restart All Services
 
 - name: Copy the openvswitch agent configuration file to controller node
   ansible.builtin.template:
@@ -82,12 +67,7 @@
     group: root
     mode: '0644'
   notify:
-    - Restart Nova API
-    - Restart Neutron Server
-    - Restart Neutron Openvswitch Agent
-    - Restart Neutron DHCP Agent
-    - Restart Neutron Metadata Agent
-    - Restart Neutron L3 Agent
+    - Restart All Services
 
 - name: Copy the dhcp agent configuration file to controller node
   ansible.builtin.template:
@@ -97,12 +77,7 @@
     group: root
     mode: '0644'
   notify:
-    - Restart Nova API
-    - Restart Neutron Server
-    - Restart Neutron Openvswitch Agent
-    - Restart Neutron DHCP Agent
-    - Restart Neutron Metadata Agent
-    - Restart Neutron L3 Agent
+    - Restart All Services
 
 - name: Configure User and Endpoints
   ansible.builtin.shell: |
