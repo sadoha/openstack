@@ -22,12 +22,3 @@ all:
     ansible_become: true
     ansible_ssh_common_args:      '-o StrictHostKeyChecking=no'
     mysql_socket_path:            '/var/run/mysqld/mysqld.sock'
-    project_name:                 'admin'
-    keystone_bootstrap_password:  'CW5xHgpElent'
-    rabbitmq_password:            'pElentEngOwn'
-    metadata_proxy_shared_secret: 'R3n6jAYDy8w3'
-    mariadb_keystone_password:    'SRSc3tCW5xHg'
-    mariadb_glance_password:      '75Bnr38DPDTu'
-    mariadb_placement_password:   'WnyZqhZ75F6m'
-    mariadb_nova_password:        'cyLkH85VY9nV'
-    mariadb_neutron_password:     'jet7fbJP7FHx'
