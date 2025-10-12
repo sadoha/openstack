@@ -207,7 +207,6 @@ resource "aws_instance" "controller" {
     volume_type = "standard"
     encrypted   = false
   }
-  ## user_data = file("scripts/controller_node.sh")
 
   tags = {
     Name = "controller"
@@ -222,11 +221,10 @@ resource "aws_instance" "compute_01" {
   subnet_id                   = aws_subnet.private_subnet[0].id
   vpc_security_group_ids      = [aws_security_group.private_sg.id]
   root_block_device {
-    volume_size = 16
+    volume_size = 32
     volume_type = "standard"
     encrypted   = false
   }
-  ## user_data = file("scripts/compute_node.sh")
 
   tags = {
     Name = "compute-01"

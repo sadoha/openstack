@@ -3,7 +3,7 @@
 sudo ufw disable
 ##
 sudo apt-get update
-sudo apt-get install -y vim curl wget net-tools git haproxy
+sudo apt-get install -y vim curl wget net-tools git haproxy tree
 ## Installing Ansible
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/Ansible
