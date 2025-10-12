@@ -32,3 +32,7 @@
     mode: '0644'
   when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
   notify: Restart Nova Compute
+
+- name: Discover compute hosts
+  ansible.builtin.command: su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
+  when: install_nova_output.changed|bool == true
