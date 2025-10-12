@@ -6,3 +6,11 @@
     - vaults.yml
   roles:
     - nova-compute
+
+- name: Finalize installation the OpenStack Compute nova
+  hosts: controller
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - nova-compute-finalize
