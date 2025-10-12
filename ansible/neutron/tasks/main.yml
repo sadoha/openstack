@@ -101,4 +101,4 @@
 
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
-  when: mysql_db_output.changed|bool == true and install_neutron_output.changed|bool == true
+  when: install_neutron_output.changed|bool == true
