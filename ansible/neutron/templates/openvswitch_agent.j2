@@ -356,7 +356,7 @@ l2_population = true
 # version of this value must match the value of the 'overlay_ip_version' option
 # in the ML2 plug-in configuration file on the neutron server node(s). (IP
 # address value)
-local_ip = 10.0.1.11
+local_ip = {{ ansible_host }}
 
 # Comma-separated list of <physical_network>:<bridge> tuples mapping physical
 # network names to the agent's node-specific Open vSwitch bridge names to be
