@@ -19,6 +19,8 @@ echo "    default_backend web_servers" >> /etc/haproxy/haproxy.cfg
 echo "backend web_servers" >> /etc/haproxy/haproxy.cfg
 echo "    balance roundrobin" >> /etc/haproxy/haproxy.cfg
 echo "    server web1 10.0.1.11:80 check" >> /etc/haproxy/haproxy.cfg
+systemctl enable haproxy
+systemctl restart haproxy
 ##
 ## Install colorls
 sudo apt-get -y install ruby libgmp-dev gcc make ruby-dev ruby-colorize
