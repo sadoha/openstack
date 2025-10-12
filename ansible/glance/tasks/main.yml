@@ -31,7 +31,7 @@
     owner: root
     group: root
     mode: '0644'
-  notify: Restart Glance API
+  register: copy_glance_api_configuration
 
 - name: Create the service credentials
   ansible.builtin.shell: | 
@@ -54,6 +54,23 @@
   args:
     executable: /bin/sh
   when: install_glance_output.changed|bool == true
+
+- name: Get the ID of the image endpoint you created earlier
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint list | grep public | grep image | awk -F "|" '{print $2}'
+  args:
+    executable: /bin/sh
+  register: image_endpoint_id_output
+  when: copy_glance_api_configuration.changed|bool == true
+
+- name: Replace ENDPOINT_ID with the ID of the image endpoint you created earlier
+  ansible.builtin.replace:
+    path: /etc/glance/glance-api.conf
+    regexp: "ENDPOINT_ID"
+    replace: "{{ image_endpoint_id_output.stdout }}"
+  notify: Restart Glance API
+  when: image_endpoint_id_output.changed|bool == true
 
 - name: Populate the Image service database
   ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
