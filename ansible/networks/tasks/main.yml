@@ -1,0 +1,20 @@
+---
+# tasks file for networks
+- name: Check if the OpenStack network net0 exists
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack network list --name net0
+  args:
+    executable: /bin/sh
+  register: network_net0
+  changed_when: false
+  ignore_errors: yes
+
+- name: Create an OpenStack network net0 
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack network create net0
+    openstack subnet create subnet0 --network net0 --subnet-range 192.0.2.0/24
+  args:
+    executable: /bin/sh
+  when: network_net0.stdout == ""
