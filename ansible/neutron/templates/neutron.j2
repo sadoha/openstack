@@ -544,7 +544,7 @@ notify_nova_on_port_data_changes = true
 # oslo_messaging.TransportURL at
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
-transport_url = rabbit://openstack:pElentEngOwn@controller
+transport_url = rabbit://openstack:{{ rabbitmq_password }}@controller
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option. (string value)
@@ -995,7 +995,7 @@ root_helper = "sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf"
 
 
 [database]
-connection = mysql+pymysql://neutron:jet7fbJP7FHx@controller/neutron
+connection = mysql+pymysql://neutron:{{ mariadb_neutron_password }}@controller/neutron
 
 #
 # From neutron.db
@@ -1382,9 +1382,9 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = admin
+project_name = {{ project_name }}
 username = neutron
-password = jet7fbJP7FHx
+password = {{ mariadb_neutron_password }}
 #
 # From keystonemiddleware.auth_token
 #
@@ -1561,9 +1561,9 @@ auth_type = password
 project_domain_name = Default
 user_domain_name = Default
 region_name = RegionOne
-project_name = admin
+project_name = {{ project_name }}
 username = nova
-password = cyLkH85VY9nV
+password = {{ mariadb_nova_password }}
 #
 # From neutron
 #

@@ -256,9 +256,9 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = admin
+project_name = {{ project_name }}
 username = placement
-password = WnyZqhZ75F6m
+password = {{ mariadb_placement_password }}
 
 #
 # From keystonemiddleware.auth_token
@@ -609,7 +609,7 @@ password = WnyZqhZ75F6m
 
 
 [placement_database]
-connection = mysql+pymysql://placement:WnyZqhZ75F6m@controller/placement
+connection = mysql+pymysql://placement:{{ mariadb_placement_password }}@controller/placement
 #
 # The *Placement API Database* is a the database used with the placement
 # service. If the connection option is not set, the placement service will
