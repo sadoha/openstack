@@ -37,7 +37,7 @@
   ansible.builtin.shell: | 
     . /root/.bashrc 
     openstack user create --domain default --password {{ mariadb_glance_password }} glance 
-    openstack role add --project admin --user glance admin
+    openstack role add --project {{ project_name }} --user glance admin
     openstack role add --user glance --user-domain Default --system all reader
     openstack service create --name glance --description "OpenStack Image" image
   args:

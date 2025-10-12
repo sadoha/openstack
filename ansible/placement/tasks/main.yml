@@ -37,7 +37,7 @@
   ansible.builtin.shell: |
     . /root/.bashrc
     openstack user create --domain default --password {{ mariadb_placement_password }}  placement
-    openstack role add --project admin --user placement admin
+    openstack role add --project {{ project_name }} --user placement admin
     openstack service create --name placement --description "Placement API" placement
   args:
     executable: /bin/sh

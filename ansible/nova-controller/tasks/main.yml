@@ -57,7 +57,7 @@
   ansible.builtin.shell: |
     . /root/.bashrc
     openstack user create --domain default --password {{ mariadb_nova_password }} nova
-    openstack role add --project admin --user nova admin
+    openstack role add --project {{ project_name }} --user nova admin
     openstack service create --name nova --description "OpenStack Compute" compute
   args:
     executable: /bin/sh

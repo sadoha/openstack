@@ -83,7 +83,7 @@
   ansible.builtin.shell: |
     . /root/.bashrc
     openstack user create --domain default --password {{ mariadb_neutron_password }} neutron
-    openstack role add --project admin --user neutron admin
+    openstack role add --project {{ project_name }} --user neutron admin
     openstack service create --name neutron --description "OpenStack Networking" network
   args:
     executable: /bin/sh
