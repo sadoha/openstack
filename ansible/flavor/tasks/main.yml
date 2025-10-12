@@ -1,0 +1,20 @@
+---
+# tasks file for flavor
+- name: Define the compute, memory, and storage capacity of nova computing instances
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack flavor create {{ item.name }} --ram {{ item.ram }} --disk {{ item.disk }} --vcpus {{ item.vcpus }}
+  args:
+    executable: /bin/sh
+  loop:
+    - { name: 'm1.tiny',    ram: '1024',  disk: '8',    vcpus: '1' }
+    - { name: 'm1.small',   ram: '2048',  disk: '8',    vcpus: '1' }
+    - { name: 'm1.medium',  ram: '4096',  disk: '16',   vcpus: '2' }
+    - { name: 'm1.large',   ram: '8192',  disk: '32',   vcpus: '2' }
+    - { name: 'm1.xlarge',  ram: '16384', disk: '32',   vcpus: '4' }
+    - { name: 'm1.2xlarge', ram: '32768', disk: '64',   vcpus: '8' }
+  run_once: true
+  changed_when: false
+  ignore_errors: yes
+
+#  when: install_placement_output.changed|bool == true

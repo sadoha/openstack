@@ -62,8 +62,8 @@
 - name: Register quota limits
   ansible.builtin.shell: |
     . /root/.bashrc
-    openstack registered limit create --service glance --default-limit 1000 --region RegionOne image_size_total
-    openstack registered limit create --service glance --default-limit 1000 --region RegionOne image_stage_total
+    openstack registered limit create --service glance --default-limit 4000 --region RegionOne image_size_total
+    openstack registered limit create --service glance --default-limit 4000 --region RegionOne image_stage_total
     openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_total
     openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_uploading
   args:
