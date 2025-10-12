@@ -9,12 +9,10 @@
   loop:
     - { name: 'm1.tiny',    ram: '1024',    swap: '1024',   disk: '8',    vcpus: '1' }
     - { name: 'm1.small',   ram: '2048',    swap: '1024',   disk: '8',    vcpus: '1' }
-    - { name: 'm1.medium',  ram: '4096',    swap: '2048',   disk: '16',   vcpus: '2' }
-    - { name: 'm1.large',   ram: '8192',    swap: '2048',   disk: '32',   vcpus: '2' }
-    - { name: 'm1.xlarge',  ram: '16384',   swap: '2048',   disk: '32',   vcpus: '4' }
-    - { name: 'm1.2xlarge', ram: '32768',   swap: '4096',   disk: '64',   vcpus: '8' }
+    - { name: 'm1.medium',  ram: '4096',    swap: '2048',   disk: '8',    vcpus: '2' }
+    - { name: 'm1.large',   ram: '8192',    swap: '2048',   disk: '16',   vcpus: '2' }
+    - { name: 'm1.xlarge',  ram: '16384',   swap: '2048',   disk: '16',   vcpus: '4' }
+    - { name: 'm1.2xlarge', ram: '32768',   swap: '4096',   disk: '32',   vcpus: '8' }
   run_once: true
   changed_when: false
   ignore_errors: yes
-
-#  when: install_placement_output.changed|bool == true
