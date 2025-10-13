@@ -14,7 +14,8 @@ resource "aws_subnet" "public_subnet" {
   count = length(var.public_subnet)
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnet[count.index]
-  availability_zone = var.azs[count.index]
+  #  availability_zone = var.azs[count.index]
+  availability_zone = var.azs[0]
 
   tags = {
     Name = "public-subnet-${count.index + 1}"
@@ -25,7 +26,8 @@ resource "aws_subnet" "private_subnet" {
   count = length(var.private_subnet)
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet[count.index]
-  availability_zone = var.azs[count.index]
+  #  availability_zone = var.azs[count.index]
+  availability_zone = var.azs[0]
 
   tags = {
     "Name" = "private-subnet-${count.index + 1}"
@@ -213,6 +215,17 @@ resource "aws_instance" "controller" {
   }
 }
 
+resource "aws_network_interface" "private_network_controller" {
+  subnet_id       = aws_subnet.private_subnet[1].id
+  private_ips     = ["10.0.2.11"]
+  security_groups = [aws_security_group.private_sg.id]
+
+  attachment {
+    instance     = aws_instance.controller.id
+    device_index = 2
+  }
+}
+
 resource "aws_instance" "compute_01" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.large"
@@ -228,5 +241,16 @@ resource "aws_instance" "compute_01" {
 
   tags = {
     Name = "compute-01"
+  }
+}
+
+resource "aws_network_interface" "private_network_compute" {
+  subnet_id       = aws_subnet.private_subnet[1].id
+  private_ips     = ["10.0.2.31"]
+  security_groups = [aws_security_group.private_sg.id]
+
+  attachment {
+    instance     = aws_instance.compute_01.id
+    device_index = 2
   }
 }
