@@ -20,6 +20,7 @@
     name:
       - keystone
     state: present
+  register: install_keystone_output
 
 - name: Copy Keystone configuration file to controller node
   ansible.builtin.template:
@@ -60,4 +61,26 @@
       export OS_AUTH_URL=http://controller:5000/v3
       export OS_IDENTITY_API_VERSION=3
     state: present
-    create: yes 
+    create: yes
+
+- name: Create a domain and projects
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack domain create --description "An Example Domain" Example
+    openstack project create --domain default --description "Service Project" {{ project_name }}
+  args:
+    executable: /bin/sh
+  when: install_keystone_output.changed|bool == true
+
+- name: Create a non-admin domain, projects, users, and roles
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack project create --domain default --description "Demo Project" kpi
+    openstack user create --domain default --password {{ openstack_kpi_password }} kpiuser
+    openstack role create kpirole 
+    openstack role add --project kpi --user kpiuser kpirole
+  args:
+    executable: /bin/sh
+  when: install_keystone_output.changed|bool == true
+
+
