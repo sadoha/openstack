@@ -5,5 +5,3 @@
      su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
   args:
     executable: /bin/sh
-  changed_when: false
-  ignore_errors: yes

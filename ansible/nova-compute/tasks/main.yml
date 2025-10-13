@@ -4,6 +4,7 @@
   ansible.builtin.apt:
     name:
       - nova-compute
+      - neutron-openvswitch-agent
     state: present
   register: install_nova_output
 
@@ -23,7 +24,7 @@
   ignore_errors: yes
   when: install_nova_output.changed|bool == true
 
-- name: Copy Nova Compute configuration file to controller node
+- name: Copy Nova Compute configuration file
   ansible.builtin.template:
     src: nova-compute-qemu.j2
     dest: /etc/nova/nova-compute.conf
@@ -32,3 +33,24 @@
     mode: '0644'
   when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
   notify: Restart Nova Compute
+
+- name: Copy Neutron Server configuration file
+  ansible.builtin.template:
+    src: neutron.j2
+    dest: /etc/neutron/neutron.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
+  notify: Restart Neutron Openvswitch Agent
+
+- name: Copy Neutron Openvswitch Agent configuration file
+  ansible.builtin.template:
+    src: openvswitch_agent.j2
+    dest: /etc/neutron/plugins/ml2/openvswitch_agent.ini
+    owner: root
+    group: root
+    mode: '0644'
+#  when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
+  notify: Restart Neutron Openvswitch Agent
+

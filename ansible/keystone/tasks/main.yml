@@ -52,10 +52,10 @@
     path: /root/.bashrc
     block: |
       # Custom environment variables
-      export OS_USERNAME={{ project_name }}
+      export OS_USERNAME=admin
       export OS_PASSWORD={{ keystone_bootstrap_password }}
       export OS_BOOTSTRAP_PASSWORD={{ keystone_bootstrap_password }}
-      export OS_PROJECT_NAME={{ project_name }}
+      export OS_PROJECT_NAME=admin
       export OS_USER_DOMAIN_NAME=Default
       export OS_PROJECT_DOMAIN_NAME=Default
       export OS_AUTH_URL=http://controller:5000/v3
@@ -63,16 +63,15 @@
     state: present
     create: yes
 
-- name: Create a domain and projects
+- name: Create a root projects
   ansible.builtin.shell: |
     . /root/.bashrc
-    openstack domain create --description "An Example Domain" Example
     openstack project create --domain default --description "Service Project" {{ project_name }}
   args:
     executable: /bin/sh
   when: install_keystone_output.changed|bool == true
 
-- name: Create a non-admin domain, projects, users, and roles
+- name: Create a non-admin, projects, users, and roles
   ansible.builtin.shell: |
     . /root/.bashrc
     openstack project create --domain default --description "Demo Project" kpi
