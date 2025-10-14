@@ -24,6 +24,8 @@
   import_playbook: nova-controller.yml
 - name: Set up the network connectivity as a service
   import_playbook: neutron.yml
+- name: Set up the Container Infrastructure Management service
+  import_playbook: magnum.yml
 - name:  Define the compute, memory, and storage capacity of nova computing instances
   import_playbook: flavor.yml
 - name: Create an OpenStack images

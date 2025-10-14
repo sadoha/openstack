@@ -1,0 +1,13 @@
+---
+# handlers file for magnum
+- name: Restart Magnum API Services
+  ansible.builtin.systemd:
+    name: magnum-api
+    enabled: true
+    state: restarted
+
+- name: Restart Magnum Conductor Services
+  ansible.builtin.systemd:
+    name: magnum-conductor
+    enabled: true
+    state: restarted
