@@ -5,9 +5,10 @@
   community.general.ufw:
     state: disabled
 
+# add-apt-repository -y cloud-archive:epoxy
 - name: Execute add-apt-repository for cloud-archive:epoxy
   ansible.builtin.shell: |
-    add-apt-repository -y cloud-archive:epoxy
+    add-apt-repository -y cloud-archive:2025.2
   args:
     creates: /etc/apt/sources.list.d/cloudarchive-epoxy.list
 
