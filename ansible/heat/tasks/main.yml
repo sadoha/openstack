@@ -77,4 +77,4 @@
 
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "heat-manage db_sync" heat
-#  when: install_heat_output.changed|bool == true
+  when: install_heat_output.changed|bool == true
