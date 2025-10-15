@@ -8,7 +8,7 @@
   import_playbook: memcached.yml
 - name: Set up the strongly consistent key-value store
   import_playbook: etcd.yml
-- name: Set up the message broker that facilitates asynchronous communication between different applications or services
+- name: Set up the message broker
   import_playbook: rabbitmq.yml
 - name: Set up the community-developed relational database
   import_playbook: mariadb.yml
@@ -24,9 +24,11 @@
   import_playbook: nova-controller.yml
 - name: Set up the network connectivity as a service
   import_playbook: neutron.yml
+- name: Set up the OpenStack Block Storage service (controller node)
+  import_playbook: cinder.yml
 - name: Set up the Container Infrastructure Management service
   import_playbook: magnum.yml
-- name:  Define the compute, memory, and storage capacity of nova computing instances
+- name: Define the compute, memory, and storage capacity of computing instances
   import_playbook: flavor.yml
 - name: Create an OpenStack images
   import_playbook: images.yml

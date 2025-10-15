@@ -1,0 +1,16 @@
+---
+- name: Set up the OpenStack Block Storage service
+  hosts: controller
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - cinder-controller
+
+- name: Set up the OpenStack Block Storage Node
+  hosts: block-storage
+  become: true
+  vars_files:
+    - vaults.yml
+  roles:
+    - cinder-storage-node

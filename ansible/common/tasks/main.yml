@@ -5,11 +5,17 @@
   community.general.ufw:
     state: disabled
 
-- name: Execute add-apt-repository for cloud-archive:flamingo
+- name: Execute add-apt-repository for cloud-archive:epoxy
   ansible.builtin.shell: |
-    add-apt-repository -y cloud-archive:flamingo
+    add-apt-repository -y cloud-archive:epoxy
   args:
-    creates: /etc/apt/sources.list.d/cloudarchive-flamingo.list
+    creates: /etc/apt/sources.list.d/cloudarchive-epoxy.list
+
+#- name: Execute add-apt-repository for cloud-archive:flamingo
+#  ansible.builtin.shell: |
+#    add-apt-repository -y cloud-archive:flamingo
+#  args:
+#    creates: /etc/apt/sources.list.d/cloudarchive-flamingo.list      
 
 - name: Update apt cache and upgrade packages
   ansible.builtin.apt:

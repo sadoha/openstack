@@ -1,0 +1,19 @@
+---
+# handlers file for cinder-controller
+- name: Restart Nova API
+  ansible.builtin.systemd:
+    name: nova-api
+    enabled: true
+    state: restarted
+
+- name: Restart Cinder Scheduler
+  ansible.builtin.systemd:
+    name: cinder-scheduler
+    enabled: true
+    state: restarted
+
+- name: Restart Apache2 Service
+  ansible.builtin.systemd:
+    name: apache2.service
+    enabled: true
+    state: restarted
