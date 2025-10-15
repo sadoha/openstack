@@ -254,3 +254,32 @@ resource "aws_network_interface" "private_network_compute" {
     device_index = 2
   }
 }
+
+resource "aws_instance" "block_storage" {
+  ami                         = "ami-0360c520857e3138f"
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.main.key_name
+  private_ip                  = "10.0.1.41"
+  subnet_id                   = aws_subnet.private_subnet[0].id
+  vpc_security_group_ids      = [aws_security_group.private_sg.id]
+  root_block_device {
+    volume_size = 8
+    volume_type = "standard"
+    encrypted   = false
+  }
+
+  ebs_block_device {
+    device_name           = "/dev/sdb"
+    volume_size           = 16
+    volume_type           = "standard"
+    delete_on_termination = true
+    encrypted             = false
+    tags = {
+      Name = "BlockStorageDataVolume"
+    }
+  }
+
+  tags = {
+    Name = "block-storage"
+  }
+}

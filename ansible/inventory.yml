@@ -13,10 +13,17 @@ all:
           ansible_host: 10.0.1.31
           ansible_host_name: compute-01
 
+    block-storage:
+      hosts:
+        block-storage:
+          ansible_host: 10.0.1.41
+          ansible_host_name: block-storage
+
     cluster:
       children:
         controller: {}
         computes: {}
+        block-storage: {}
   
   vars:
     ansible_become: true
