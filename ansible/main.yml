@@ -26,6 +26,8 @@
   import_playbook: neutron.yml
 - name: Set up the OpenStack Block Storage service (controller node)
   import_playbook: cinder.yml
+- name: Set up the Heat service to orchestrate composite cloud applications
+  import_playbook: heat.yml
 - name: Set up the Container Infrastructure Management service
   import_playbook: magnum.yml
 - name: Define the compute, memory, and storage capacity of computing instances

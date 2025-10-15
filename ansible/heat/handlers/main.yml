@@ -1,0 +1,19 @@
+---
+# handlers file for heat
+- name: Restart Heat API
+  ansible.builtin.systemd:
+    name: heat-api
+    enabled: true
+    state: restarted
+
+- name: Restart Heat API CFG
+  ansible.builtin.systemd:
+    name: heat-api-cfn
+    enabled: true
+    state: restarted
+
+- name: Restart Heat Engine
+  ansible.builtin.systemd:
+    name: heat-engine
+    enabled: true
+    state: restarted
