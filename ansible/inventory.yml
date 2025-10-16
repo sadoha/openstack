@@ -4,19 +4,19 @@ all:
     controller:
       hosts:
         controller:
-          ansible_host: 10.0.1.11
+          ansible_host: 10.0.2.11
           ansible_host_name: controller
 
     computes:
       hosts:
         compute-01:
-          ansible_host: 10.0.1.31
+          ansible_host: 10.0.2.31
           ansible_host_name: compute-01
 
     block-storage:
       hosts:
         block-storage:
-          ansible_host: 10.0.1.41
+          ansible_host: 10.0.2.41
           ansible_host_name: block-storage
 
     cluster:

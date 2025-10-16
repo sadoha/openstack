@@ -178,9 +178,9 @@ resource "aws_key_pair" "main" {
 
 resource "aws_instance" "jumphost" {
   ami                         = "ami-0360c520857e3138f"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.small"
   key_name                    = aws_key_pair.main.key_name
-  private_ip                  = "10.0.5.100"
+  private_ip                  = "10.0.10.100"
   # This ensures a public IP is assigned
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.public_subnet[0].id
@@ -201,8 +201,8 @@ resource "aws_instance" "controller" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.xlarge" #t2.2xlarge"
   key_name                    = aws_key_pair.main.key_name
-  private_ip                  = "10.0.1.11"
-  subnet_id                   = aws_subnet.private_subnet[0].id
+  private_ip                  = "10.0.2.11"
+  subnet_id                   = aws_subnet.private_subnet[1].id
   vpc_security_group_ids      = [aws_security_group.private_sg.id]
   root_block_device {
     volume_size = 16
@@ -215,10 +215,10 @@ resource "aws_instance" "controller" {
   }
 }
 
-resource "aws_network_interface" "private_network_controller" {
-  subnet_id       = aws_subnet.private_subnet[1].id
-  private_ips     = ["10.0.2.11"]
-  security_groups = [aws_security_group.private_sg.id]
+resource "aws_network_interface" "public_network_controller" {
+  subnet_id       = aws_subnet.public_subnet[1].id
+  private_ips     = ["10.0.20.11"]
+  security_groups = [aws_security_group.public_sg.id]
 
   attachment {
     instance     = aws_instance.controller.id
@@ -230,8 +230,8 @@ resource "aws_instance" "compute_01" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.large"
   key_name                    = aws_key_pair.main.key_name
-  private_ip                  = "10.0.1.31"
-  subnet_id                   = aws_subnet.private_subnet[0].id
+  private_ip                  = "10.0.2.31"
+  subnet_id                   = aws_subnet.private_subnet[1].id
   vpc_security_group_ids      = [aws_security_group.private_sg.id]
   root_block_device {
     volume_size = 32
@@ -244,10 +244,10 @@ resource "aws_instance" "compute_01" {
   }
 }
 
-resource "aws_network_interface" "private_network_compute" {
-  subnet_id       = aws_subnet.private_subnet[1].id
-  private_ips     = ["10.0.2.31"]
-  security_groups = [aws_security_group.private_sg.id]
+resource "aws_network_interface" "public_network_compute" {
+  subnet_id       = aws_subnet.public_subnet[1].id
+  private_ips     = ["10.0.20.31"]
+  security_groups = [aws_security_group.public_sg.id]
 
   attachment {
     instance     = aws_instance.compute_01.id
@@ -259,8 +259,8 @@ resource "aws_instance" "block_storage" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.main.key_name
-  private_ip                  = "10.0.1.41"
-  subnet_id                   = aws_subnet.private_subnet[0].id
+  private_ip                  = "10.0.2.41"
+  subnet_id                   = aws_subnet.private_subnet[1].id
   vpc_security_group_ids      = [aws_security_group.private_sg.id]
   root_block_device {
     volume_size = 8
