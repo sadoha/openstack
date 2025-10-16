@@ -8,11 +8,11 @@
     state: present
   register: install_nova_output
 
-- name: Create a bridge named br-ex for the external network
-  ansible.builtin.shell: |
-    ovs-vsctl add-br br-ex
-    ovs-vsctl add-port br-ex enX1
-  when: install_nova_output.changed|bool == true
+#- name: Create a bridge named br-ex for the external network
+#  ansible.builtin.shell: |
+#    ovs-vsctl add-br br-ex
+#    ovs-vsctl add-port br-ex enX1
+#  when: install_nova_output.changed|bool == true
 
 - name: Copy Nova configuration file to controller node
   ansible.builtin.template:

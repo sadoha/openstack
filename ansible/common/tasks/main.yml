@@ -49,6 +49,7 @@
       - wget
       - telnet
       - locales
+      - ifupdown
       - dnsutils
       - net-tools
     state: present

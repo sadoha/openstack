@@ -6,26 +6,22 @@ all:
         controller:
           ansible_host: 10.0.2.11
           ansible_host_name: controller
-
     computes:
       hosts:
         compute-01:
           ansible_host: 10.0.2.31
           ansible_host_name: compute-01
-
-    block-storage:
-      hosts:
-        block-storage:
-          ansible_host: 10.0.2.41
-          ansible_host_name: block-storage
-
+#    block-storage:
+#      hosts:
+#        block-storage:
+#          ansible_host: 10.0.2.41
+#          ansible_host_name: block-storage
     cluster:
       children:
         controller: {}
         computes: {}
-        block-storage: {}
-  
+#        block-storage: {}
   vars:
     ansible_become: true
-    ansible_ssh_common_args:      '-o StrictHostKeyChecking=no'
-    mysql_socket_path:            '/var/run/mysqld/mysqld.sock'
+    ansible_ssh_common_args:  '-o StrictHostKeyChecking=no'
+    mysql_socket_path:        '/var/run/mysqld/mysqld.sock'
