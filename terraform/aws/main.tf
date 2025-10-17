@@ -234,7 +234,7 @@ resource "aws_instance" "compute_01" {
   subnet_id                   = aws_subnet.private_subnet[1].id
   vpc_security_group_ids      = [aws_security_group.private_sg.id]
   root_block_device {
-    volume_size = 32
+    volume_size = 16
     volume_type = "standard"
     encrypted   = false
   }
@@ -263,7 +263,7 @@ resource "aws_instance" "compute_02" {
   subnet_id                   = aws_subnet.private_subnet[1].id
   vpc_security_group_ids      = [aws_security_group.private_sg.id]
   root_block_device {
-    volume_size = 32
+    volume_size = 16
     volume_type = "standard"
     encrypted   = false
   }
