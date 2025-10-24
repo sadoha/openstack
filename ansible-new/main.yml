@@ -1,4 +1,6 @@
 ---
 # file: main.yml
-- name: Set up common tools and applications 
-  import_playbook: services/common/main.yml
+#- name: Set up common tools and applications 
+#  import_playbook: services/common/main.yml
+- name: Set up the OpenStack Identity Service
+  import_playbook: services/keystone/main.yml

@@ -1,0 +1,22 @@
+---
+# tasks file for mariadb
+
+- name: Ensure keystone database is present
+  community.mysql.mysql_db:
+    name: keystone
+    login_unix_socket: "{{ mysql_socket_path }}"
+  tags:
+    - keystone
+
+- name: Ensure keystone database user is present
+  community.mysql.mysql_user:
+    name: keystone
+    host: "{{ item }}"
+    password: "{{ keystone_mysql_password }}"
+    priv: keystone.*:ALL
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - keystone

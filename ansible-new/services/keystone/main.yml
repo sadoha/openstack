@@ -1,0 +1,16 @@
+---
+- name: Install or verify Keystone database
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - mariadb
+
+- name: Set up the OpenStack Identity Service
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - keystone
