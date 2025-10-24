@@ -1,0 +1,7 @@
+---
+# handlers file for mariadb
+- name: Restart Mariadb
+  ansible.builtin.systemd:
+    name: mariadb
+    enabled: true
+    state: restarted

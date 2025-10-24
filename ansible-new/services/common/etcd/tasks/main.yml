@@ -1,0 +1,20 @@
+---
+# tasks file for etcd
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - etcd-server
+    state: present
+  tags:
+    - etcd-server
+
+- name: Copy Etcd configuration file to controller node
+  ansible.builtin.template:
+    src: etcd.j2
+    dest: /etc/default/etcd
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart Etcd
+  tags:
+    - etcd-server
