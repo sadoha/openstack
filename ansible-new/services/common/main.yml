@@ -1,0 +1,18 @@
+---
+- name: Setup steps that are not specific to a particular role or project
+  hosts: all
+  become: true
+  roles:
+    - all
+
+- name: Set up the Network Time Protocol (NTP) client and server
+  hosts: all
+  become: true
+  roles:
+    - chrony
+
+- name: Set up the in-memory key-value store system
+  hosts: controller
+  become: true
+  roles:
+    - memcached

@@ -1,0 +1,7 @@
+---
+# handlers file for memcached
+- name: Restart Memcached
+  ansible.builtin.systemd:
+    name: chrony
+    enabled: true
+    state: restarted

@@ -1,0 +1,54 @@
+---
+# tasks file for all
+- name: Disable UFW firewall
+  community.general.ufw:
+    state: disabled
+  tags:
+    - all
+
+- name: Execute add-apt-repository for cloud-archive:flamingo
+  ansible.builtin.shell: |
+    add-apt-repository -y cloud-archive:flamingo
+  args:
+    creates: /etc/apt/sources.list.d/cloudarchive-flamingo.list      
+  tags:
+    - all
+
+- name: Update apt cache and upgrade packages
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: yes
+  tags:
+    - all
+
+- name: Update hostnames
+  hostname:
+    name: "{{ ansible_host_name }}"
+  tags:
+    - all
+
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_host }} {{ item }}"
+    state: present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups.cluster }}"
+  tags:
+    - all
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - vim
+      - curl
+      - wget
+      - telnet
+      - locales
+      - ifupdown
+      - dnsutils
+      - net-tools
+    state: present
+  tags:
+    - all
