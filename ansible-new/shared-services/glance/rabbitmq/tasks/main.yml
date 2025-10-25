@@ -1,0 +1,21 @@
+---
+# tasks file for rabbitmq
+- name: Ensure glance vhost is present
+  rabbitmq_vhost: 
+    name: /glance
+    state: present
+  tags:
+    - glance
+
+- name: Ensure glance user is present
+  rabbitmq_user: 
+    user: glance
+    password: "{{ glance_rabbit_password }}" 
+    vhost: /glance
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+    force: yes
+  tags:
+    - glance

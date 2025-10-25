@@ -1,21 +1,21 @@
 ---
 # tasks file for mariadb
-- name: Ensure keystone database is present
+- name: Ensure glance database is present
   community.mysql.mysql_db:
-    name: keystone
+    name: glance
     login_unix_socket: "{{ mysql_socket_path }}"
   tags:
-    - keystone
+    - glance
 
-- name: Ensure keystone database user is present
+- name: Ensure glance database user is present
   community.mysql.mysql_user:
-    name: keystone
+    name: glance
     host: "{{ item }}"
-    password: "{{ keystone_mariadb_password }}"
-    priv: keystone.*:ALL
+    password: "{{ glance_mariadb_password }}"
+    priv: glance.*:ALL
     login_unix_socket: "{{ mysql_socket_path }}"
   with_items:
     - "%"
     - localhost
   tags:
-    - keystone
+    - glance

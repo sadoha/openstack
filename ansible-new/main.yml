@@ -4,6 +4,7 @@
   import_playbook: common/main.yml
 - name: Set up Shared Services
   import_playbook: shared-services/keystone/main.yml
+  import_playbook: shared-services/glance/main.yml
 - name: Set up Web Frontends
   import_playbook: web-frontends/horizon/main.yml
 

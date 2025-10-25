@@ -707,7 +707,7 @@ log_dir = /var/log/keystone
 
 
 [database]
-connection = mysql+pymysql://keystone:{{ keystone_mysql_password }}@controller/keystone
+connection = mysql+pymysql://keystone:{{ keystone_mariadb_password }}@controller/keystone
 
 #
 # From oslo.db

@@ -1,0 +1,74 @@
+---
+# tasks file for glance
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - glance
+    state: present
+  register: install_glance_output
+  tags:
+    - glance
+
+- name: Copy glance-api configuration file to controller node
+  ansible.builtin.template:
+    src: glance-api.j2
+    dest: /etc/glance/glance-api.conf
+    owner: root
+    group: root
+    mode: '0644'
+  register: copy_glance_api_configuration
+  tags:
+    - glance
+
+- name: Create the service credentials
+  ansible.builtin.shell: | 
+    . /root/.bashrc 
+    openstack user create --domain default --password {{ glance_identity_password }} glance 
+    openstack role add --project {{ project_name }} --user glance admin
+    openstack role add --user glance --user-domain Default --system all reader
+    openstack service create --name glance --description "OpenStack Image" image
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true
+  tags:
+    - glance
+
+- name: Create the Image service API endpoints
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint create --region RegionOne image public http://controller:9292
+    openstack endpoint create --region RegionOne image internal http://controller:9292
+    openstack endpoint create --region RegionOne image admin http://controller:9292
+    openstack endpoint list --service glance --region RegionOne
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true
+  tags:
+    - glance
+
+- name: Get the ID of the image endpoint you created earlier
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint list | grep public | grep image | awk -F "|" '{print $2}'
+  args:
+    executable: /bin/sh
+  register: image_endpoint_id_output
+  when: copy_glance_api_configuration.changed|bool == true
+  tags:
+    - glance
+
+- name: Replace ENDPOINT_ID with the ID of the image endpoint you created earlier
+  ansible.builtin.replace:
+    path: /etc/glance/glance-api.conf
+    regexp: "ENDPOINT_ID"
+    replace: "{{ image_endpoint_id_output.stdout }}"
+  notify: Restart Glance API
+  when: image_endpoint_id_output.changed|bool == true
+  tags:
+    - glance
+
+- name: Populate the Image service database
+  ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
+  when: copy_glance_api_configuration.changed|bool == true
+  tags:
+    - glance
