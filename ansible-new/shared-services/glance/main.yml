@@ -1,5 +1,5 @@
 ---
-- name: Install or verify Keystone database
+- name: Install or verify database
   hosts: controller
   become: true
   vars_files:
@@ -15,10 +15,18 @@
   roles:
     - rabbitmq
 
-- name: Set up the image service glance
+- name: Set or verify Keystone config 
   hosts: controller
   become: true
   vars_files:
     - ../../vaults.yml
   roles:
-    - app
+    - keystone
+
+- name: Set up the image service
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - glance

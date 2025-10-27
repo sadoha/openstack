@@ -1,0 +1,9 @@
+---
+# vars file for keystone
+openstack_auth:
+  auth_url: "http://controller:5000/"
+  username: "admin"
+  password: "{{ keystone_bootstrap_password }}"
+  project_name: "admin"
+  user_domain_name: "Default"
+  project_domain_name: "Default"

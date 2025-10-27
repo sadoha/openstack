@@ -1,0 +1,38 @@
+---
+# tasks file for glance
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - glance
+    state: present
+  tags:
+    - glance
+
+- name: Copy glance-api configuration file to controller node
+  ansible.builtin.template:
+    src: glance-api.j2
+    dest: /etc/glance/glance-api.conf
+    owner: root
+    group: root
+    mode: '0644'
+  tags:
+    - glance
+
+- name: Get the ID of the image endpoint you created earlier
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint list | grep public | grep image | awk -F "|" '{print $2}'
+  args:
+    executable: /bin/sh
+  register: image_endpoint_id_output
+  tags:
+    - glance
+
+- name: Replace ENDPOINT_ID with the ID of the image endpoint you created earlier
+  ansible.builtin.replace:
+    path: /etc/glance/glance-api.conf
+    regexp: "ENDPOINT_ID"
+    replace: "{{ image_endpoint_id_output.stdout }}"
+  notify: Restart Glance API
+  tags:
+    - glance

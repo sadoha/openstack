@@ -16,6 +16,5 @@
     read_priv: .*
     write_priv: .*
     state: present
-    force: yes
   tags:
     - glance

@@ -4,6 +4,7 @@
   community.mysql.mysql_db:
     name: glance
     login_unix_socket: "{{ mysql_socket_path }}"
+  register: mysql_db_output
   tags:
     - glance
 
@@ -19,3 +20,9 @@
     - localhost
   tags:
     - glance
+
+#- name: Populate the Image service database
+#  ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
+#  when: mysql_db_output.changed|bool == true
+#  tags:
+#    - glance
