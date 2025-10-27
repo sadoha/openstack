@@ -6,7 +6,7 @@
     name: "glance"
     password: "{{ glance_identity_password }}"
     description: "OpenStack glance user"
-    default_project: "{{ project_name }}"
+    domain: default
     state: present
   tags:
     - glance
@@ -26,8 +26,7 @@
     cloud: "{{ openstack_auth }}"
     user: glance
     role: reader
-    system: all
-    domain: Default
+    system: "all"
     state: present
   tags:
     - glance
@@ -37,7 +36,7 @@
      cloud: "{{ openstack_auth }}"
      name: glance
      type: image
-     description: OpenStack Image Service
+     description: "OpenStack Image Service"
      state: present
   tags:
     - glance
