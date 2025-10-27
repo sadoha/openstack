@@ -5,6 +5,7 @@
     name:
       - glance
     state: present
+  register: install_glance_output
   tags:
     - glance
 
@@ -41,3 +42,14 @@
   ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
   tags:
     - glance
+
+- name: Register quota limits
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack registered limit create --service glance --default-limit 5000 --region RegionOne image_size_total
+    openstack registered limit create --service glance --default-limit 5000 --region RegionOne image_stage_total
+    openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_total
+    openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_uploading
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true
