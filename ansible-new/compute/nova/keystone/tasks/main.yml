@@ -1,0 +1,67 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "nova"
+    password: "{{ nova_identity_password }}"
+    description: "OpenStack nova user"
+    domain: default
+    state: present
+  tags:
+    - nova
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: nova
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - nova
+
+- name: Create a new service
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: compute
+     type: image
+     description: "OpenStack Compute Service"
+     state: present
+  tags:
+    - nova
+
+- name: Create a public endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: nova
+     endpoint_interface: public
+       #endpoint_type: compute
+     url: http://controller:8774/v2.1
+     region: RegionOne
+     state: present
+  tags:
+    - nova
+
+- name: Create a internal endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: nova
+     endpoint_interface: internal
+       #endpoint_type: compute
+     url: http://controller:8774/v2.1
+     region: RegionOne
+     state: present
+  tags:
+    - nova
+
+- name: Create a admin endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: nova
+     endpoint_interface: admin
+     url: http://controller:8774/v2.1
+     region: RegionOne
+     state: present
+  tags:
+    - nova

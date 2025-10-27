@@ -8,5 +8,7 @@
 #  import_playbook: web-frontends/horizon/main.yml
 #- name: Set up the shared services Glance
 #  import_playbook: shared-services/glance/main.yml
-- name: Set up the shared services Placement
-  import_playbook: shared-services/placement/main.yml
+#- name: Set up the shared services Placement
+#  import_playbook: shared-services/placement/main.yml
+- name: Set up the compute services Nova
+  import_playbook: compute/nova/main.yml

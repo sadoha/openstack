@@ -22,8 +22,8 @@ all:
     cluster:
       children:
         controller: {}
-        computes: {}
-        block-storage: {}
+#        computes: {}
+#        block-storage: {}
   vars:
     ansible_become: true
     ansible_ssh_common_args:  '-o StrictHostKeyChecking=no'

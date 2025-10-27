@@ -1,0 +1,28 @@
+---
+# tasks file for mariadb
+- name: Ensure nova database is present
+  community.mysql.mysql_db:
+    name: "{{ item }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - nova
+    - nova_api
+    - nova_cell0
+  tags:
+    - nova
+
+- name: Ensure nova database user is present
+  community.mysql.mysql_user:
+    name: nova
+    host: "{{ item }}"
+    password: "{{ nova_mariadb_password }}"
+    priv:
+      'nova.*': 'ALL'
+      'nova_api.*': 'ALL'
+      'nova_cell0.*': 'ALL'
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - nova
