@@ -36,3 +36,8 @@
   notify: Restart Glance API
   tags:
     - glance
+
+- name: Populate the Image service database
+  ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
+  tags:
+    - glance
