@@ -1,0 +1,65 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "placement"
+    password: "{{ placement_identity_password }}"
+    description: "OpenStack placement user"
+    domain: default
+    state: present
+  tags:
+    - placement
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: placement
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - placement
+
+- name: Create a new service
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: placement
+     type: image
+     description: "OpenStack Placement API Service"
+     state: present
+  tags:
+    - placement
+
+- name: Create a public endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: placement
+     endpoint_interface: public
+     url: http://controller:8778
+     region: RegionOne
+     state: present
+  tags:
+    - placement
+
+- name: Create a internal endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: placement
+     endpoint_interface: internal
+     url: http://controller:8778
+     region: RegionOne
+     state: present
+  tags:
+    - placement
+
+- name: Create a admin endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: placement
+     endpoint_interface: admin
+     url: http://controller:8778
+     region: RegionOne
+     state: present
+  tags:
+    - placement

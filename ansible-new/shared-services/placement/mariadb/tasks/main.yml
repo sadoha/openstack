@@ -1,0 +1,22 @@
+---
+# tasks file for mariadb
+- name: Ensure placement database is present
+  community.mysql.mysql_db:
+    name: placement
+    login_unix_socket: "{{ mysql_socket_path }}"
+  register: mysql_db_output
+  tags:
+    - placement
+
+- name: Ensure placement database user is present
+  community.mysql.mysql_user:
+    name: placement
+    host: "{{ item }}"
+    password: "{{ placement_mariadb_password }}"
+    priv: placement.*:ALL
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - placement

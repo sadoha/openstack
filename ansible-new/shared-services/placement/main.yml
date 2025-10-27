@@ -1,0 +1,24 @@
+---
+- name: Install or verify database
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - mariadb
+
+- name: Set or verify Keystone config
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - keystone
+
+- name: Set up the placement API service 
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - placement
