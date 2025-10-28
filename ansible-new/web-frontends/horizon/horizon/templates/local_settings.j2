@@ -418,3 +418,22 @@ OPENSTACK_API_VERSIONS = {
 
 # Configure Default as the default domain for users that you create via the dashboard
 OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "Default"
+
+# If you chose networking option 1, disable support for layer-3 networking services
+OPENSTACK_NEUTRON_NETWORK = {
+    'default_dns_nameservers': [],
+    'enable_auto_allocated_network': False,
+    'enable_distributed_router': False,
+    'enable_fip_topology_check': True,
+    'enable_ha_router': False,
+    'enable_ipv6': True,
+    'enable_quotas': True,
+    'enable_rbac_policy': True,
+    'enable_router': True,
+    'extra_provider_types': {},
+    'physical_networks': [],
+    'segmentation_id_range': {},
+    'supported_provider_types': ["*"],
+    'supported_vnic_types': ["*"],
+    'show_agents_column': True,
+}

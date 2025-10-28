@@ -1,0 +1,20 @@
+---
+# tasks file for rabbitmq
+- name: Ensure neutron vhost is present
+  rabbitmq_vhost: 
+    name: /neutron
+    state: present
+  tags:
+    - neutron
+
+- name: Ensure neutron user is present
+  rabbitmq_user: 
+    user: neutron
+    password: "{{ neutron_rabbit_password }}" 
+    vhost: /neutron
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+  tags:
+    - neutron

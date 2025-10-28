@@ -852,7 +852,7 @@ log_dir = /var/log/nova
 # The network address and optional user credentials for connecting to the
 # messaging backend, in URL format. The expected format is. For more
 # information, refer to the documentation. (string value)
-transport_url = rabbit://nova:{{ nova_rabbit_password }}@controller:5672/
+transport_url = rabbit://nova:{{ nova_rabbit_password }}@controller:5672/nova
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option (string value)
@@ -3879,19 +3879,18 @@ password = {{ nova_identity_password }}
 #  (boolean value)
 #enabled = false
 
+[neutron]
+auth_url = http://controller:5000
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+region_name = RegionOne
+project_name = {{ project_name }}
+username = neutron
+password = {{ neutron_identity_password }}
+service_metadata_proxy = true
+metadata_proxy_shared_secret = {{ neutron_metadata_proxy_secret }}
 
-#[neutron]
-#auth_url = http://controller:5000
-#auth_type = password
-#project_domain_name = Default
-#user_domain_name = Default
-#region_name = RegionOne
-#project_name = {{ project_name }}
-#username = neutron
-#password = {{ neutron_identity_password }}
-#service_metadata_proxy = true
-#metadata_proxy_shared_secret = {{ neutron_metadata_proxy_secret }}
-#
 # Configuration options for neutron (network connectivity as a service).
 
 #

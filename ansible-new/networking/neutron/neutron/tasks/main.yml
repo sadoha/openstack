@@ -1,22 +1,5 @@
 ---
 # tasks file for neutron
-- name: Create a new database with name 'neutron'
-  community.mysql.mysql_db:
-    name: neutron
-    login_unix_socket: "{{ mysql_socket_path }}"
-    state: present
-  register: mysql_db_output
-
-- name: Cretae MySQL Neutron user and password using socket
-  community.mysql.mysql_user:
-    name: neutron
-    host: '%'
-    password: "{{ mariadb_neutron_password }}"
-    priv:
-      'neutron.*': 'ALL,GRANT'
-    login_unix_socket: "{{ mysql_socket_path }}"
-    state: present
-
 - name: Install required packages
   ansible.builtin.apt:
     name:
@@ -28,12 +11,6 @@
       - neutron-l3-agent 
     state: present
   register: install_neutron_output
-
-- name: Create a bridge named br-ex for the external network
-  ansible.builtin.shell: |
-    ovs-vsctl add-br br-ex
-    ovs-vsctl add-port br-ex enX1
-  when: install_neutron_output.changed|bool == true
 
 - name: Copy the neutron configuration file to controller node
   ansible.builtin.template:
@@ -85,26 +62,5 @@
   notify:
     - Restart All Services
 
-- name: Configure User and Endpoints
-  ansible.builtin.shell: |
-    . /root/.bashrc
-    openstack user create --domain default --password {{ mariadb_neutron_password }} neutron
-    openstack role add --project {{ project_name }} --user neutron admin
-    openstack service create --name neutron --description "OpenStack Networking" network
-  args:
-    executable: /bin/sh
-  when: install_neutron_output.changed|bool == true
-
-- name: Create the Placement API service endpoints
-  ansible.builtin.shell: |
-    . /root/.bashrc
-    openstack endpoint create --region RegionOne network public http://controller:9696
-    openstack endpoint create --region RegionOne network internal http://controller:9696
-    openstack endpoint create --region RegionOne network admin http://controller:9696
-  args:
-    executable: /bin/sh
-  when: install_neutron_output.changed|bool == true
-
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
-  when: install_neutron_output.changed|bool == true

@@ -1,0 +1,22 @@
+---
+# tasks file for mariadb
+- name: Ensure neutron database is present
+  community.mysql.mysql_db:
+    name: neutron
+    login_unix_socket: "{{ mysql_socket_path }}"
+  register: mysql_db_output
+  tags:
+    - neutron
+
+- name: Ensure neutron database user is present
+  community.mysql.mysql_user:
+    name: neutron
+    host: "{{ item }}"
+    password: "{{ neutron_mariadb_password }}"
+    priv: neutron.*:ALL
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - neutron

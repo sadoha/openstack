@@ -12,5 +12,5 @@
   import_playbook: shared-services/placement/main.yml
 - name: Set up the compute services Nova
   import_playbook: compute/nova/main.yml
-#- name: Set up the networking
-#  import_playbook: networking/neutron/main.yml
+- name: Set up the networking
+  import_playbook: networking/neutron/main.yml
