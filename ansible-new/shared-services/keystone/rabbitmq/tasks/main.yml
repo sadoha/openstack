@@ -2,7 +2,7 @@
 # tasks file for rabbitmq
 - name: Ensure keystone vhost is present
   rabbitmq_vhost: 
-    name: /keystone
+    name: /
     state: present
   tags:
     - keystone
@@ -11,7 +11,7 @@
   rabbitmq_user: 
     user: keystone
     password: "{{ keystone_rabbit_password }}" 
-    vhost: /keystone
+    vhost: /
     configure_priv: .*
     read_priv: .*
     write_priv: .*

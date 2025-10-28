@@ -6,7 +6,6 @@
       - nova-compute
       - neutron-openvswitch-agent
     state: present
-  register: install_nova_output
 
 - name: Copy Nova configuration file to controller node
   ansible.builtin.template:
@@ -22,7 +21,6 @@
   ansible.builtin.command: egrep -c '(vmx|svm)' /proc/cpuinfo
   register: check_hardware_acceleration
   ignore_errors: yes
-  when: install_nova_output.changed|bool == true
 
 - name: Copy Nova Compute configuration file
   ansible.builtin.template:
@@ -31,7 +29,7 @@
     owner: root
     group: root
     mode: '0644'
-  when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
+  when: check_hardware_acceleration.stdout == "0"
   notify: Restart Nova Compute
 
 - name: Copy Neutron Server configuration file
@@ -41,7 +39,7 @@
     owner: root
     group: root
     mode: '0644'
-  when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
+  when: check_hardware_acceleration.stdout == "0"
   notify: Restart Neutron Openvswitch Agent
 
 - name: Copy Neutron Openvswitch Agent configuration file
@@ -51,12 +49,4 @@
     owner: root
     group: root
     mode: '0644'
-#  when: install_nova_output.changed|bool == true and check_hardware_acceleration.stdout == "0"
   notify: Restart Neutron Openvswitch Agent
-
-
-- name: Discover compute hosts
-  ansible.builtin.shell: |
-     su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
-  args:
-    executable: /bin/sh

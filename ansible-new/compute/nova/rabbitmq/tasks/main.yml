@@ -2,7 +2,7 @@
 # tasks file for rabbitmq
 - name: Ensure nova vhost is present
   rabbitmq_vhost: 
-    name: /nova
+    name: /
     state: present
   tags:
     - nova
@@ -11,7 +11,7 @@
   rabbitmq_user: 
     user: nova
     password: "{{ nova_rabbit_password }}" 
-    vhost: /nova
+    vhost: /
     configure_priv: .*
     read_priv: .*
     write_priv: .*

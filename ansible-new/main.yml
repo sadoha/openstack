@@ -1,16 +1,16 @@
 ---
 # file: main.yml
-- name: Set up common tools and applications
-  import_playbook: common/main.yml
-- name: Set up the shared services Keystone
-  import_playbook: shared-services/keystone/main.yml
-- name: Set up Web Frontends
-  import_playbook: web-frontends/horizon/main.yml
-- name: Set up the shared services Glance
-  import_playbook: shared-services/glance/main.yml
-- name: Set up the shared services Placement
-  import_playbook: shared-services/placement/main.yml
+#- name: Set up common tools and applications
+#  import_playbook: common/main.yml
+#- name: Set up the shared services Keystone
+#  import_playbook: shared-services/keystone/main.yml
+#- name: Set up Web Frontends
+#  import_playbook: web-frontends/horizon/main.yml
+#- name: Set up the shared services Glance
+#  import_playbook: shared-services/glance/main.yml
+#- name: Set up the shared services Placement
+#  import_playbook: shared-services/placement/main.yml
 - name: Set up the compute services Nova
   import_playbook: compute/nova/main.yml
-- name: Set up the networking
-  import_playbook: networking/neutron/main.yml
+#- name: Set up the networking
+#  import_playbook: networking/neutron/main.yml

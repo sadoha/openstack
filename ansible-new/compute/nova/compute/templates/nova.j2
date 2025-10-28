@@ -853,7 +853,7 @@ state_path = /var/lib/nova
 # The network address and optional user credentials for connecting to the
 # messaging backend, in URL format. The expected format is. For more
 # information, refer to the documentation. (string value)
-transport_url = rabbit://nova:{{ nova_rabbit_password }}@controller:5672/nova
+transport_url = rabbit://nova:{{ nova_rabbit_password }}@controller:5672/
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option (string value)
@@ -2892,7 +2892,7 @@ project_domain_name = Default
 user_domain_name = Default
 project_name = {{ project_name }}
 username = nova
-password = {{ mariadb_keystone_password }}
+password = {{ nova_identity_password }}
 #
 # From keystonemiddleware.auth_token
 #
@@ -3888,9 +3888,9 @@ user_domain_name = Default
 region_name = RegionOne
 project_name = {{ project_name }}
 username = neutron
-password = {{ mariadb_neutron_password }}
+password = {{ neutron_identity_password }}
 service_metadata_proxy = true
-metadata_proxy_shared_secret = {{ metadata_proxy_shared_secret }}
+metadata_proxy_shared_secret = {{ neutron_metadata_proxy_secret }}
 
 #
 # Configuration options for neutron (network connectivity as a service).
@@ -4909,7 +4909,7 @@ auth_type = password
 user_domain_name = Default
 auth_url = http://controller:5000/v3
 username = placement
-password = {{ mariadb_placement_password }}
+password = {{ placement_identity_password }}
 
 #
 # From nova.conf
@@ -5407,7 +5407,7 @@ project_domain_name = Default
 project_name = {{ project_name }}
 user_domain_name = Default
 username = nova
-password = {{ mariadb_nova_password }}
+password = {{ nova_identity_password }}
 #
 # Configuration options for service to service authentication using a service
 # token. These options allow sending a service token along with the user's token

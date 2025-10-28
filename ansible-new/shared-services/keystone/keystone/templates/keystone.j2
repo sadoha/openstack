@@ -276,7 +276,7 @@ log_dir = /var/log/keystone
 # oslo_messaging.TransportURL at
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
-transport_url = rabbit://keystone:{{ keystone_rabbit_password }}@controller:5672/keystone
+transport_url = rabbit://keystone:{{ keystone_rabbit_password }}@controller:5672/
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option. (string value)

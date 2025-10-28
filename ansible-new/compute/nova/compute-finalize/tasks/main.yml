@@ -1,0 +1,7 @@
+---
+# tasks file for nova-compute-finalize
+- name: Discover compute hosts
+  ansible.builtin.shell: |
+     su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
+  args:
+    executable: /bin/sh
