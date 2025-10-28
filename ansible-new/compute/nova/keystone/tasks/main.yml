@@ -24,44 +24,24 @@
 - name: Create a new service
   openstack.cloud.catalog_service:
      cloud: "{{ openstack_auth }}"
-     name: compute
-     type: image
+     name: nova
+     type: compute
      description: "OpenStack Compute Service"
      state: present
   tags:
     - nova
 
-- name: Create a public endpoint
+- name: Create an endpoint
   openstack.cloud.endpoint:
      cloud: "{{ openstack_auth }}"
      service: nova
-     endpoint_interface: public
-       #endpoint_type: compute
+     endpoint_interface: "{{ item }}"
      url: http://controller:8774/v2.1
      region: RegionOne
      state: present
-  tags:
-    - nova
-
-- name: Create a internal endpoint
-  openstack.cloud.endpoint:
-     cloud: "{{ openstack_auth }}"
-     service: nova
-     endpoint_interface: internal
-       #endpoint_type: compute
-     url: http://controller:8774/v2.1
-     region: RegionOne
-     state: present
-  tags:
-    - nova
-
-- name: Create a admin endpoint
-  openstack.cloud.endpoint:
-     cloud: "{{ openstack_auth }}"
-     service: nova
-     endpoint_interface: admin
-     url: http://controller:8774/v2.1
-     region: RegionOne
-     state: present
+  with_items:
+    - public
+    - internal
+    - admin
   tags:
     - nova

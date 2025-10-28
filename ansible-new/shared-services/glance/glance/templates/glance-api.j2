@@ -1212,7 +1212,7 @@ enabled_backends=fs:file
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
 #transport_url = rabbit://
-transport_url = rabbit://openstack:{{ glance_rabbit_password }}@controller:5672/
+transport_url = rabbit://glance:{{ glance_rabbit_password }}@controller:5672/
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option. (string value)
