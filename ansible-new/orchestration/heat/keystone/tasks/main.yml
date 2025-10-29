@@ -1,0 +1,114 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "heat"
+    password: "{{ heat_identity_password }}"
+    description: "OpenStack heat user"
+    domain: default
+    state: present
+  tags:
+    - heat
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: heat
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - heat
+
+- name: Create a new service heat
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: heat
+     type: orchestration
+     description: "Orchestration"
+     state: present
+  tags:
+    - heat
+
+- name: Create a new service heat-cfn
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: heat-cfn
+     type: cloudformation
+     description: "CloudFormation"
+     state: present
+  tags:
+    - heat
+
+- name: Create an endpoint heat
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: heat
+     endpoint_interface: "{{ item }}"
+     url: http://controller:8004/v1/%(tenant_id)s
+     region: RegionOne
+     state: present
+  with_items:
+    - public
+    - internal
+    - admin
+  tags:
+    - heat
+
+- name: Create an endpoint heat-cfn
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: heat-cfn
+     endpoint_interface: "{{ item }}"
+     url: "http://controller:8000/v1"
+     region: RegionOne
+     state: present
+  with_items:
+    - public
+    - internal
+    - admin
+  tags:
+    - heat
+
+- name: Create a domain
+  openstack.cloud.identity_domain:
+    cloud: "{{ openstack_auth }}"
+    name: heat
+    description: "Stack projects and users"
+    state: present
+  tags:
+    - heat
+
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "heat_domain_admin"
+    password: "{{ heat_domain_identity_password }}"
+    description: "OpenStack heat user"
+    domain: heat
+    state: present
+  tags:
+    - heat
+
+- name: Grant an admin role on the heat_domain_admin user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: heat_domain_admin
+    role: admin
+    project: "{{ project_name }}"
+    domain: heat
+    state: present
+  tags:
+    - heat
+
+
+
+
+
+
+
+
+
+
+

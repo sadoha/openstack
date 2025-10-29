@@ -1,0 +1,38 @@
+---
+# tasks file for heat
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - heat-api 
+      - heat-api-cfn 
+      - heat-engine
+    state: present
+  register: install_heat_output
+
+- name: Configure Heat User and Domain
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack domain create --description "Stack projects and users" heat
+    openstack user create --domain heat --password {{ heat_domain_admin_password }} heat_domain_admin
+    openstack role add --domain heat --user-domain heat --user heat_domain_admin admin
+    openstack role create heat_stack_owner
+    openstack role add --project {{ project_name }} --user demo heat_stack_owner
+    openstack role create heat_stack_user
+  args:
+    executable: /bin/sh
+  when: install_heat_output.changed|bool == true
+
+- name: Copy the Heat configuration file to controller node
+  ansible.builtin.template:
+    src: heat.j2
+    dest: /etc/heat/heat.conf 
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Restart Heat API
+    - Restart Heat API CFG
+    - Restart Heat Engine
+
+- name: Populate the database
+  ansible.builtin.command: su -s /bin/sh -c "heat-manage db_sync" heat

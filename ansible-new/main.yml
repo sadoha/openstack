@@ -10,7 +10,11 @@
 #  import_playbook: shared-services/glance/main.yml
 #- name: Set up the shared services Placement
 #  import_playbook: shared-services/placement/main.yml
-- name: Set up the compute services Nova
-  import_playbook: compute/nova/main.yml
+#- name: Set up the compute services Nova
+#  import_playbook: compute/nova/main.yml
 #- name: Set up the networking
 #  import_playbook: networking/neutron/main.yml
+#- name: Set up the orchestrate composite cloud applications
+#  import_playbook: orchestration/heat/main.yml
+- name: Set up the Container Infrastructure Management services
+  import_playbook: workload-provisining/magnum/main.yml

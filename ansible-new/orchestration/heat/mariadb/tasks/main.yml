@@ -1,0 +1,24 @@
+---
+# tasks file for mariadb
+- name: Ensure heat database is present
+  community.mysql.mysql_db:
+    name: "{{ item }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - heat
+  tags:
+    - heat
+
+- name: Ensure heat database user is present
+  community.mysql.mysql_user:
+    name: heat
+    host: "{{ item }}"
+    password: "{{ heat_mariadb_password }}"
+    priv:
+      'heat.*': 'ALL'
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - heat
