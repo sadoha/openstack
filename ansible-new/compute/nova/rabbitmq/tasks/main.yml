@@ -1,12 +1,5 @@
 ---
 # tasks file for rabbitmq
-- name: Ensure nova vhost is present
-  rabbitmq_vhost: 
-    name: /
-    state: present
-  tags:
-    - nova
-
 - name: Ensure nova user is present
   rabbitmq_user: 
     user: nova

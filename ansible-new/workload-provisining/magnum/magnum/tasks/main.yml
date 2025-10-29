@@ -1,22 +1,5 @@
 ---
 # tasks file for magnum
-- name: Create a new database with name 'magnum'
-  community.mysql.mysql_db:
-    name: magnum
-    login_unix_socket: "{{ mysql_socket_path }}"
-    state: present
-  register: mysql_db_output
-
-- name: Cretae Magnum user and password using socket
-  community.mysql.mysql_user:
-    name: magnum
-    host: '%'
-    password: "{{ mariadb_magnum_password }}"
-    priv:
-      'magnum.*': 'ALL,GRANT'
-    login_unix_socket: "{{ mysql_socket_path }}"
-    state: present
-
 - name: Install required packages
   ansible.builtin.apt:
     name:
@@ -25,36 +8,6 @@
       - python3-magnumclient
     state: present
   register: install_magnum_output
-
-- name: Configure User and Endpoints
-  ansible.builtin.shell: |
-    . /root/.bashrc
-    openstack user create --domain default --password {{ mariadb_magnum_password }} magnum
-    openstack role add --project {{ project_name }} --user magnum admin
-    openstack service create --name magnum --description "OpenStack Container Infrastructure Management Service" container-infra
-  args:
-    executable: /bin/sh
-  when: install_magnum_output.changed|bool == true
-
-- name: Create the Placement API service endpoints
-  ansible.builtin.shell: |
-    . /root/.bashrc
-    openstack endpoint create --region RegionOne container-infra public http://controller:9511/v1
-    openstack endpoint create --region RegionOne container-infra internal http://controller:9511/v1
-    openstack endpoint create --region RegionOne container-infra admin http://controller:9511/v1
-  args:
-    executable: /bin/sh
-  when: install_magnum_output.changed|bool == true
-
-- name: Configure Magnum User and Domain
-  ansible.builtin.shell: |
-    . /root/.bashrc
-    openstack domain create --description "Owns users and projects created by magnum" magnum
-    openstack user create --domain magnum --password {{ magnum_domain_admin_password }}  magnum_domain_admin
-    openstack role add --domain magnum --user-domain magnum --user magnum_domain_admin admin
-  args:
-    executable: /bin/sh
-  when: install_magnum_output.changed|bool == true
 
 - name: Copy the Magnum configuration file to controller node
   ansible.builtin.template:
@@ -69,4 +22,3 @@
 
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "magnum-db-manage upgrade" magnum
-  when: install_magnum_output.changed|bool == true

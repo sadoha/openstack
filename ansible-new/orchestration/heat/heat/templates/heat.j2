@@ -3,7 +3,7 @@
 heat_metadata_server_url = http://controller:8000
 heat_waitcondition_server_url = http://controller:8000/v1/waitcondition
 stack_domain_admin = heat_domain_admin
-stack_domain_admin_password = {{ heat_domain_admin_password }}
+stack_domain_admin_password = {{ heat_domain_identity_password }}
 stack_user_domain_name = heat
 
 #
@@ -190,7 +190,7 @@ stack_user_domain_name = heat
 # oslo_messaging.TransportURL at
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
-transport_url = rabbit://openstack:{{ rabbitmq_password }}@controller
+transport_url = rabbit://heat:{{ heat_rabbit_password }}@controller:5672/
 
 # The default exchange under which topics are scoped. May be overridden by an
 # exchange name specified in the transport_url option. (string value)
@@ -545,7 +545,7 @@ project_domain_name = Default
 user_domain_name = Default
 project_name = {{ project_name }}
 username = heat
-password = {{ mariadb_heat_password }}
+password = {{ heat_identity_password }}
 
 #
 # From keystonemiddleware.auth_token
@@ -1307,13 +1307,13 @@ password = {{ mariadb_heat_password }}
 #ciphers = <None>
 
 [database]
-connection = mysql+pymysql://heat:{{ mariadb_heat_password }}@controller/heat
+connection = mysql+pymysql://heat:{{ heat_mariadb_password }}@controller/heat
 
 [trustee]
 auth_type = password
 auth_url = http://controller:5000
 username = heat
-password = {{ mariadb_heat_password }}
+password = {{ heat_identity_password }}
 user_domain_name = Default
 
 [clients_keystone]

@@ -1,12 +1,5 @@
 ---
 # tasks file for rabbitmq
-- name: Ensure glance vhost is present
-  rabbitmq_vhost: 
-    name: /
-    state: present
-  tags:
-    - glance
-
 - name: Ensure glance user is present
   rabbitmq_user: 
     user: glance

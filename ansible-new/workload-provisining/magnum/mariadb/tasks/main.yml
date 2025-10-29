@@ -1,0 +1,24 @@
+---
+# tasks file for mariadb
+- name: Ensure magnum database is present
+  community.mysql.mysql_db:
+    name: "{{ item }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - magnum
+  tags:
+    - magnum
+
+- name: Ensure magnum database user is present
+  community.mysql.mysql_user:
+    name: magnum
+    host: "{{ item }}"
+    password: "{{ magnum_mariadb_password }}"
+    priv:
+      'magnum.*': 'ALL'
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - magnum

@@ -1,0 +1,79 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "magnum"
+    password: "{{ magnum_identity_password }}"
+    description: "OpenStack magnum user"
+    domain: default
+    state: present
+  tags:
+    - magnum
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: magnum
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - magnum
+
+- name: Create a new service magnum
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: magnum
+     type: container-infra
+     description: "OpenStack Container Infrastructure Management Service"
+     state: present
+  tags:
+    - magnum
+
+- name: Create an endpoint magnum
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: magnum
+     endpoint_interface: "{{ item }}"
+     url: http://controller:9511/v1
+     region: RegionOne
+     state: present
+  with_items:
+    - public
+    - internal
+    - admin
+  tags:
+    - magnum
+
+# -----------------  Create a domain magnum -----------------
+
+- name: Create a domain magnum
+  openstack.cloud.identity_domain:
+    cloud: "{{ openstack_auth }}"
+    name: magnum
+    description: "Owns users and projects created by magnum"
+    state: present
+  tags:
+    - magnum
+
+- name: Create the new OpenStack user magnum_domain_admin
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "magnum_domain_admin"
+    password: "{{ magnum_domain_identity_password }}"
+    description: "OpenStack magnum user"
+    domain: magnum
+    state: present
+  tags:
+    - magnum
+
+- name: Grant an admin role on the magnum_domain_admin user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: magnum_domain_admin
+    role: admin
+    domain: magnum
+    state: present
+  tags:
+    - magnum

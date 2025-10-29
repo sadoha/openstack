@@ -233,8 +233,7 @@ state_path = /var/lib/magnum
 # oslo_messaging.TransportURL at
 # https://docs.openstack.org/oslo.messaging/latest/reference/transport.html
 # (string value)
-#transport_url = rabbit://
-transport_url = rabbit://openstack:{{ rabbitmq_password }}@controller
+transport_url = rabbit://magnum:{{ magnum_rabbit_password }}@controller:5672/
 
 # The default exchange under which topics are scoped. May be
 # overridden by an exchange name specified in the transport_url
@@ -530,7 +529,7 @@ region_name = RegionOne
 # The SQLAlchemy connection string to use to connect to the database.
 # (string value)
 #connection = <None>
-connection = mysql+pymysql://magnum:{{ mariadb_magnum_password }}@controller/magnum
+connection = mysql+pymysql://magnum:{{ magnum_mariadb_password }}@controller/magnum
 
 # The SQLAlchemy connection string to use to connect to the slave
 # database. (string value)
@@ -827,12 +826,12 @@ www_authenticate_uri = http://controller:5000/v3
 project_domain_id = default
 project_name = {{ project_name }}
 user_domain_id = default
-password = {{ mariadb_magnum_password }}
+password = {{ magnum_identity_password }}
 username = magnum
 auth_url = http://controller:5000
 auth_type = password
 admin_user = magnum
-admin_password = {{ mariadb_magnum_password }}
+admin_password = {{ magnum_identity_password }}
 admin_tenant_name = service
 #
 # Re-added by openstack-pkg-tools
@@ -1743,7 +1742,7 @@ driver = messaging
 [trust]
 trustee_domain_name = magnum
 trustee_domain_admin_name = magnum_domain_admin
-trustee_domain_admin_password = {{ magnum_domain_admin_password }}
+trustee_domain_admin_password = {{ magnum_domain_identity_password }}
 trustee_keystone_interface = public
 
 #

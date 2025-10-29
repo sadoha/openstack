@@ -71,7 +71,9 @@
   tags:
     - heat
 
-- name: Create a domain
+# -----------------  Create a domain heat -----------------
+
+- name: Create a domain heat
   openstack.cloud.identity_domain:
     cloud: "{{ openstack_auth }}"
     name: heat
@@ -80,7 +82,7 @@
   tags:
     - heat
 
-- name: Create the new OpenStack user
+- name: Create the new OpenStack user heat_domain_admin
   openstack.cloud.identity_user:
     cloud: "{{ openstack_auth }}"
     name: "heat_domain_admin"
@@ -96,19 +98,28 @@
     cloud: "{{ openstack_auth }}"
     user: heat_domain_admin
     role: admin
-    project: "{{ project_name }}"
     domain: heat
     state: present
   tags:
     - heat
 
+- name: Create a role heat_stack_owner
+  openstack.cloud.identity_role:
+    cloud: "{{ openstack_auth }}"
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - heat_stack_owner
+    - heat_stack_user
+  tags:
+    - heat
 
-
-
-
-
-
-
-
-
-
+- name: Grant an heat_stack_owner role on the to admin user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: admin
+    role: heat_stack_owner
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - heat

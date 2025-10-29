@@ -1,12 +1,5 @@
 ---
 # tasks file for rabbitmq
-- name: Ensure heat vhost is present
-  rabbitmq_vhost: 
-    name: /
-    state: present
-  tags:
-    - heat
-
 - name: Ensure heat user is present
   rabbitmq_user: 
     user: heat
