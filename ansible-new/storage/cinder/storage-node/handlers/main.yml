@@ -1,0 +1,13 @@
+---
+# handlers file for cinder-storage-node
+- name: Restart TGT
+  ansible.builtin.systemd:
+    name: tgt
+    enabled: true
+    state: restarted
+
+- name: Restart Cinder Volume
+  ansible.builtin.systemd:
+    name: cinder-volume
+    enabled: true
+    state: restarted

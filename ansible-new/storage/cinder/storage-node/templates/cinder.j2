@@ -1,0 +1,38 @@
+[DEFAULT]
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = lioadm
+volume_name_template = volume-%s
+volume_group = cinder-volumes
+verbose = True
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+enabled_backends = lvm
+
+my_ip = {{ ansible_host }}
+
+transport_url = rabbit://cinder:{{ cinder_rabbit_password }}@controller
+
+glance_api_servers = http://controller:9292
+
+[database]
+connection = mysql+pymysql://cinder:{{ cinder_mariadb_password }}@controller/cinder
+
+[keystone_authtoken]
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = {{ project_name }}
+username = cinder
+password = {{ cinder_identity_password }}
+
+[lvm]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+target_protocol = iscsi
+target_helper = tgtadm

@@ -1,0 +1,24 @@
+---
+# tasks file for mariadb
+- name: Ensure cinder database is present
+  community.mysql.mysql_db:
+    name: "{{ item }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - cinder
+  tags:
+    - cinder
+
+- name: Ensure cinder database user is present
+  community.mysql.mysql_user:
+    name: cinder
+    host: "{{ item }}"
+    password: "{{ cinder_mariadb_password }}"
+    priv:
+      'cinder.*': 'ALL'
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - cinder
