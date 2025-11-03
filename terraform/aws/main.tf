@@ -199,7 +199,7 @@ resource "aws_instance" "jumphost" {
 
 resource "aws_instance" "controller" {
   ami                         = "ami-0360c520857e3138f"
-  instance_type               = "t2.small" #"t2.large"
+  instance_type               = "t2.large"
   key_name                    = aws_key_pair.main.key_name
   private_ip                  = "10.0.2.11"
   subnet_id                   = aws_subnet.private_subnet[1].id
