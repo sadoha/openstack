@@ -1,0 +1,30 @@
+---
+# tasks file for cinder-controller
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - cinder-api 
+      - cinder-scheduler
+    state: present
+  tags:
+    - cinder
+
+- name: Copy the Cinder configuration file to controller node
+  ansible.builtin.template:
+    src: cinder.j2
+    dest: /etc/cinder/cinder.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify:
+    - Restart Nova API
+    - Restart Cinder Scheduler
+    - Restart Apache2 Service
+  tags:
+    - cinder
+
+- name: Populate the database
+  ansible.builtin.command: su -s /bin/sh -c "cinder-manage db sync" cinder
+  tags:
+    - cinder

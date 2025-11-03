@@ -1,0 +1,65 @@
+---
+# tasks file for cinder-storage-node
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - lvm2 
+      - thin-provisioning-tools
+      - cinder-volume 
+      - tgt
+    state: present
+  register: install_cinder_output
+  tags:
+    - cinder
+
+- name: Create the LVM physical volume /dev/xvdb
+  ansible.builtin.command: pvcreate /dev/xvdb 
+  when: install_cinder_output.changed|bool == true
+  tags:
+    - cinder
+
+- name: Create the LVM volume group cinder-volumes
+  ansible.builtin.command: vgcreate cinder-volumes /dev/xvdb
+  when: install_cinder_output.changed|bool == true
+  tags:
+    - cinder
+
+- name: Copy the lvm configuration file to controller node
+  ansible.builtin.template:
+    src: lvm.j2
+    dest: /etc/lvm/lvm.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify:
+    - Restart TGT
+    - Restart Cinder Volume
+  tags:
+    - cinder
+
+- name: Copy the Cinder configuration file to controller node
+  ansible.builtin.template:
+    src: cinder.j2
+    dest: /etc/cinder/cinder.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify:
+    - Restart Cinder Volume
+  tags:
+    - cinder
+
+- name: Copy the tgt configuration file to controller node
+  ansible.builtin.template:
+    src: tgt-cinder.j2
+    dest: /etc/tgt/conf.d/cinder.conf 
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify:
+    - Restart TGT
+  tags:
+    - cinder

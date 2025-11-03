@@ -1,0 +1,40 @@
+---
+# file: main.yml
+- name: Set up common tools and applications 
+  import_playbook: common.yml
+- name: Set up the Network Time Protocol (NTP) client and server
+  import_playbook: chrony.yml
+- name: Set up the in-memory key-value store system
+  import_playbook: memcached.yml
+- name: Set up the strongly consistent key-value store
+  import_playbook: etcd.yml
+- name: Set up the message broker
+  import_playbook: rabbitmq.yml
+- name: Set up the community-developed relational database
+  import_playbook: mariadb.yml
+- name: Set up the OpenStack Identity Service
+  import_playbook: keystone.yml
+- name: Set up the OpenStack Dashboard
+  import_playbook: horizon.yml
+- name: Set up the image service glance
+  import_playbook: glance.yml
+- name: Set up the placement API service
+  import_playbook: placement.yml
+- name: Set up the OpenStack Compute nova (controller node)
+  import_playbook: nova-controller.yml
+- name: Set up the network connectivity as a service
+  import_playbook: neutron.yml
+- name: Set up the OpenStack Block Storage service (controller node)
+  import_playbook: cinder.yml
+- name: Set up the Heat service to orchestrate composite cloud applications
+  import_playbook: heat.yml
+- name: Set up the Container Infrastructure Management service
+  import_playbook: magnum.yml
+- name: Define the compute, memory, and storage capacity of computing instances
+  import_playbook: flavor.yml
+- name: Create an OpenStack images
+  import_playbook: images.yml
+- name: Create and manage networks
+  import_playbook: networks.yml
+- name: Set up the OpenStack Compute nova (compute node)
+  import_playbook: nova-compute.yml

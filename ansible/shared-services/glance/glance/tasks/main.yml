@@ -1,0 +1,56 @@
+---
+# tasks file for glance
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - glance
+    state: present
+  register: install_glance_output
+  tags:
+    - glance
+
+- name: Copy glance-api configuration file to controller node
+  ansible.builtin.template:
+    src: glance-api.j2
+    dest: /etc/glance/glance-api.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  tags:
+    - glance
+
+- name: Get the ID of the image endpoint you created earlier
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack endpoint list | grep public | grep image | awk -F "|" '{print $2}'
+  args:
+    executable: /bin/sh
+  register: image_endpoint_id_output
+  tags:
+    - glance
+
+- name: Replace ENDPOINT_ID with the ID of the image endpoint you created earlier
+  ansible.builtin.replace:
+    path: /etc/glance/glance-api.conf
+    regexp: "ENDPOINT_ID"
+    replace: "{{ image_endpoint_id_output.stdout }}"
+  notify: Restart Glance API
+  tags:
+    - glance
+
+- name: Populate the Image service database
+  ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
+  tags:
+    - glance
+
+- name: Register quota limits
+  ansible.builtin.shell: |
+    . /root/.bashrc
+    openstack registered limit create --service glance --default-limit 5000 --region RegionOne image_size_total
+    openstack registered limit create --service glance --default-limit 5000 --region RegionOne image_stage_total
+    openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_total
+    openstack registered limit create --service glance --default-limit 100 --region RegionOne image_count_uploading
+  args:
+    executable: /bin/sh
+  when: install_glance_output.changed|bool == true

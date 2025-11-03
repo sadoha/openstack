@@ -1,0 +1,56 @@
+---
+# tasks file for nova-compute
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - nova-compute
+      - neutron-openvswitch-agent
+    state: present
+
+- name: Copy Nova configuration file to controller node
+  ansible.builtin.template:
+    #src: nova.conf
+    src: nova.j2
+    dest: /etc/nova/nova.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify: Restart Nova Compute
+
+- name: Determine whether your compute node supports hardware acceleration for virtual machines
+  ansible.builtin.command: egrep -c '(vmx|svm)' /proc/cpuinfo
+  register: check_hardware_acceleration
+  ignore_errors: yes
+
+- name: Copy Nova Compute configuration file
+  ansible.builtin.template:
+    src: nova-compute-qemu.j2
+    dest: /etc/nova/nova-compute.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  when: check_hardware_acceleration.stdout == "0"
+  notify: Restart Nova Compute
+
+- name: Copy Neutron Server configuration file
+  ansible.builtin.template:
+    src: neutron.j2
+    dest: /etc/neutron/neutron.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  when: check_hardware_acceleration.stdout == "0"
+  notify: Restart Neutron Openvswitch Agent
+
+- name: Copy Neutron Openvswitch Agent configuration file
+  ansible.builtin.template:
+    src: openvswitch_agent.j2
+    dest: /etc/neutron/plugins/ml2/openvswitch_agent.ini
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  notify: Restart Neutron Openvswitch Agent
