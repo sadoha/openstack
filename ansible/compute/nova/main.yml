@@ -46,3 +46,11 @@
     - ../../vaults.yml
   roles:
     - compute-finalize
+
+- name: Define the compute, memory, and storage capacity of computing instances
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - flavors

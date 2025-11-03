@@ -30,3 +30,11 @@
     - ../../vaults.yml
   roles:
     - glance
+
+- name: Create an OpenStack images
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - images

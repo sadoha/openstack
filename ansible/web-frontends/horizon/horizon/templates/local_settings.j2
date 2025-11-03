@@ -437,3 +437,16 @@ OPENSTACK_NEUTRON_NETWORK = {
     'supported_vnic_types': ["*"],
     'show_agents_column': True,
 }
+
+OPENSTACK_KEYSTONE_BACKEND = {
+    'name': 'native',
+    'can_edit_user': True,
+    'can_edit_group': True,
+    'can_edit_project': True,
+    'can_edit_domain': True,
+    'can_edit_role': True
+}
+
+OPENSTACK_HYPERVISOR_FEATURES = {
+    'can_set_mount_point': True,
+}
