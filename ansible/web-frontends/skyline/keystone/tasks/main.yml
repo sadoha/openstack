@@ -1,0 +1,22 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "skyline"
+    password: "{{ skyline_identity_password }}"
+    description: "OpenStack skyline user"
+    domain: default
+    state: present
+  tags:
+    - skyline
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: skyline
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - skyline

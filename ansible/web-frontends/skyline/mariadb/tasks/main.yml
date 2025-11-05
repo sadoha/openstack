@@ -1,0 +1,22 @@
+---
+# tasks file for mariadb
+- name: Ensure skyline database is present
+  community.mysql.mysql_db:
+    name: skyline
+    login_unix_socket: "{{ mysql_socket_path }}"
+  register: mysql_db_output
+  tags:
+    - skyline
+
+- name: Ensure skyline database user is present
+  community.mysql.mysql_user:
+    name: skyline
+    host: "{{ item }}"
+    password: "{{ skyline_mariadb_password }}"
+    priv: skyline.*:ALL
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - skyline
