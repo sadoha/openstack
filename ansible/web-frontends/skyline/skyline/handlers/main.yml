@@ -1,7 +1,0 @@
----
-# handlers file for skyline
-- name: Restart Docker
-  ansible.builtin.systemd:
-    name: docker
-    enabled: true
-    state: restarted

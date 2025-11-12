@@ -6,16 +6,27 @@
       - docker.io
     state: present
   tags:
-    - skyline
+    - skylinie
 
-#- name: Copy Dashboard configuration file to controller node
-#  ansible.builtin.template:
-#    src: local_settings.j2
-#    dest: /etc/openstack-dashboard/local_settings.py
-#    owner: root
-#    group: root
-#    mode: '0644'
-#    backup: true
-#  notify: Restart Apache2
-#  tags:
-#    - skyline
+- name: Create the skyline directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: '0644'
+    state: directory
+  with_items:
+    - /etc/skyline
+    - /tmp/skyline
+    - /var/log/skyline
+  tags:
+    - skylinie
+
+- name: Copy Dashboard configuration file to controller node
+  ansible.builtin.template:
+    src: skyline.j2
+    dest: /etc/skyline/skyline.yaml
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  tags:
+    - skyline
