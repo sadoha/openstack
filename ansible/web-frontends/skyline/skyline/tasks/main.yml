@@ -20,6 +20,9 @@
   tags:
     - skylinie
 
+#
+# database_url: mysql://skyline:{{ skyline_mariadb_password }}@controller:3306/skyline
+#
 - name: Copy Dashboard configuration file to controller node
   ansible.builtin.template:
     src: skyline.j2
@@ -28,5 +31,37 @@
     group: root
     mode: '0644'
     backup: true
+  tags:
+    - skyline
+
+- name: Create a skyline bootstrap container
+  docker_container:
+    name: skyline_bootstrap
+    image: 99cloud/skyline:2025.2
+    state: started
+    network_mode: host
+    ports:
+      - "9999:9999"
+    volumes:
+      - /var/log/skyline:/var/log/skyline 
+      - /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml 
+      - /tmp/skyline:/tmp 
+    etc_hosts:
+      controller: 10.0.2.11
+    env:
+      KOLLA_BOOTSTRAP: ""
+  tags:
+    - skyline
+
+- name: Pause for 30 seconds
+  pause:
+    seconds: 30
+  tags:
+    - skyline
+
+- name: Remove a skyline bootstrap container
+  docker_container:
+    name: skyline_bootstrap
+    state: absent
   tags:
     - skyline

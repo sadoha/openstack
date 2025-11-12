@@ -4,8 +4,8 @@
   import_playbook: common/main.yml
 - name: Set up the shared services Keystone
   import_playbook: shared-services/keystone/main.yml
-- name: Set up Web Frontends Skyline
-  import_playbook: web-frontends/skyline/main.yml
+#- name: Set up Web Frontends Skyline
+#  import_playbook: web-frontends/skyline/main.yml
 - name: Set up Web Frontends Horizon
   import_playbook: web-frontends/horizon/main.yml
 - name: Set up the shared image services Glance
