@@ -8,6 +8,13 @@
   tags:
     - skylinie
 
+- name: Remove a directory /tmp/skyline
+  ansible.builtin.file:
+    path: /tmp/skyline
+    state: absent
+  tags:
+    - skylinie
+
 - name: Create the skyline directory if it does not exist
   ansible.builtin.file:
     path: "{{ item }}"
@@ -23,9 +30,9 @@
 ######################################################################################
 # https://docs.openstack.org/skyline-apiserver/latest/install/docker-install-ubuntu.html#install-and-configure-components
 #
-# Skyline docker image does not contain python driver for database. 
-# You may need to build a custom image from 99cloud/skyline 
-# which contains the python driver for the database you are using. 
+# Skyline docker image does not contain python driver for database.
+# You may need to build a custom image from 99cloud/skyline
+# which contains the python driver for the database you are using.
 # If you are using mysql that may result in a Dockerfile ressembling the following
 #
 # FROM 99cloud/skyline:latest
@@ -44,18 +51,28 @@
   tags:
     - skyline
 
+######################################################################################
+# https://github.com/ansible-collections/community.docker/issues/860#issuecomment-2133716270
+# Just did ansible-galaxy collection install community.docker --force
+# to get the latest version on my local machine and it worked.
+######################################################################################
+- name: Docker pull
+  ansible.builtin.docker_image:
+    name: 99cloud/skyline:2025.2
+    source: pull
+  tags:
+    - skyline
+
 - name: Create a skyline bootstrap container
-  docker_container:
+  community.docker.docker_container:
     name: skyline_bootstrap
-    image: 99cloud/skyline:2025.2
+    image: 99cloud/skyline:2025.2.1
     state: started
     network_mode: host
-    ports:
-      - "9999:9999"
     volumes:
-      - /var/log/skyline:/var/log/skyline 
-      - /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml 
-      - /tmp/skyline:/tmp 
+      - /var/log/skyline:/var/log/skyline
+      - /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml
+      - /tmp/skyline:/tmp
     etc_hosts:
       controller: 10.0.2.11
     env:
@@ -63,15 +80,37 @@
   tags:
     - skyline
 
-- name: Pause for 30 seconds
+- name: Pause for 15 seconds
   pause:
-    seconds: 30
+    seconds: 15
   tags:
     - skyline
 
 - name: Remove a skyline bootstrap container
-  docker_container:
-    name: skyline_bootstrap
+  community.docker.docker_container:
+    name: "{{ item }}"
     state: absent
+  with_items:
+    - skyline_bootstrap
+    - skyline 
+  tags:
+    - skyline
+
+- name: Create a skyline container
+  community.docker.docker_container:
+    name: skyline
+    image: 99cloud/skyline:2025.2.1
+    state: started
+#    restart: true
+    network_mode: host
+    restart_policy: always
+    ports:
+      - "9999:9999"
+    volumes:
+      - /var/log/skyline:/var/log/skyline
+      - /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml
+      - /tmp/skyline:/tmp
+    etc_hosts:
+      controller: 10.0.2.11
   tags:
     - skyline
