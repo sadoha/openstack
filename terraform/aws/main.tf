@@ -225,10 +225,10 @@ resource "aws_network_interface" "private_network_controller" {
     device_index = 2
   }
 }
-
+/*
 resource "aws_instance" "compute_01" {
   ami                         = "ami-0360c520857e3138f"
-  instance_type               = "t2.small" #"t2.large"
+  instance_type               = "t2.large"
   key_name                    = aws_key_pair.main.key_name
   private_ip                  = "10.0.2.31"
   subnet_id                   = aws_subnet.private_subnet[1].id
@@ -254,7 +254,7 @@ resource "aws_network_interface" "private_network_compute_01" {
     device_index = 2
   }
 }
-/*
+
 resource "aws_instance" "compute_02" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.large"

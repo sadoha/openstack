@@ -20,9 +20,19 @@
   tags:
     - skylinie
 
+######################################################################################
+# https://docs.openstack.org/skyline-apiserver/latest/install/docker-install-ubuntu.html#install-and-configure-components
+#
+# Skyline docker image does not contain python driver for database. 
+# You may need to build a custom image from 99cloud/skyline 
+# which contains the python driver for the database you are using. 
+# If you are using mysql that may result in a Dockerfile ressembling the following
+#
+# FROM 99cloud/skyline:latest
+# RUN apt install -y python3-mysqldb
 #
 # database_url: mysql://skyline:{{ skyline_mariadb_password }}@controller:3306/skyline
-#
+######################################################################################
 - name: Copy Dashboard configuration file to controller node
   ansible.builtin.template:
     src: skyline.j2
