@@ -105,14 +105,6 @@ resource "aws_security_group" "public_sg" {
   description = "public security group"
   vpc_id = aws_vpc.main.id
 
-  ## ingress {
-  ##  description = "SSH"
-  ##  from_port = 22
-  ##  to_port = 22
-  ##  protocol = "tcp"
-  ##  cidr_blocks = ["0.0.0.0/0"]
-  ##}
-
   ingress {
     description = "Full access"
     from_port   = 0

@@ -11,6 +11,7 @@ sudo apt-get install -y ansible
 ## Set hostname for VM 
 hostname jumphost
 ##
+ansible-galaxy collection install community.docker --force
 ##
 echo "# Example basic configuration" >> /etc/haproxy/haproxy.cfg
 echo "frontend http_front" >> /etc/haproxy/haproxy.cfg

@@ -34,3 +34,8 @@ output "private_subnets" {
 output "my_vpc" {
   value = aws_vpc.main.id
 }
+
+output "jumphost_public_ip" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.jumphost.public_ip
+}
