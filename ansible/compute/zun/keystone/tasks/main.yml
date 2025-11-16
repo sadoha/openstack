@@ -1,0 +1,47 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "zun"
+    password: "{{ zun_identity_password }}"
+    description: "OpenStack zun user"
+    domain: default
+    state: present
+  tags:
+    - zun
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: zun
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - zun
+
+- name: Create a new service
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: zun
+     type: container
+     description: "Container Service"
+     state: present
+  tags:
+    - zun
+
+- name: Create an endpoint
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: zun
+     endpoint_interface: "{{ item }}"
+     url: http://controller:9517/v1
+     region: RegionOne
+     state: present
+  with_items:
+    - public
+    - internal
+    - admin
+  tags:
+    - zun

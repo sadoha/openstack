@@ -1,0 +1,32 @@
+---
+- name: Install or verify database
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - mariadb
+
+- name: Configure RabbitMQ server
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - rabbitmq
+
+- name: Set or verify Keystone config
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - keystone
+
+- name: Set up the OpenStack Containers Service
+  hosts: controller
+  become: true
+  vars_files:
+    - ../../vaults.yml
+  roles:
+    - zun

@@ -18,6 +18,8 @@
   import_playbook: networking/neutron/main.yml
 - name: Set up the orchestrate composite cloud applications
   import_playbook: orchestration/heat/main.yml
+#- name: Set up the container service
+#  import_playbook: compute/zun/main.yml
 - name: Set up the Container Infrastructure Management services
   import_playbook: workload-provisining/magnum/main.yml
 - name: Set up the OpenStack Block Storage service

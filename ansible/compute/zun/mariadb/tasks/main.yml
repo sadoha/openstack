@@ -1,0 +1,24 @@
+---
+# tasks file for mariadb
+- name: Ensure zun database is present
+  community.mysql.mysql_db:
+    name: "{{ item }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - zun
+  tags:
+    - zun
+
+- name: Ensure zun database user is present
+  community.mysql.mysql_user:
+    name: zun
+    host: "{{ item }}"
+    password: "{{ zun_mariadb_password }}"
+    priv:
+      'zun.*': 'ALL'
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - zun

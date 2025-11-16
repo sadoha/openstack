@@ -1,0 +1,61 @@
+---
+# tasks file for zun
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - python3-pip 
+    state: present
+
+- name: Create a new group zun
+  ansible.builtin.group:
+    name: zun
+    state: present
+
+- name: Create a new user zun and assign to groups zun
+  ansible.builtin.user:
+    name: zun
+    password: "{{ 'your_password_here' | password_hash('sha512') }}"
+    group: zun
+    shell: /bin/false
+    home: /var/lib/zun
+    state: present
+    create_home: true
+
+- name: Create the zun directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: zun
+    group: zun
+    mode: '0644'
+    state: directory
+  with_items:
+    - /etc/zun
+  tags:
+    - skylinie
+
+#- name: Copy Nova configuration file to controller node
+#  ansible.builtin.template:
+#    src: zun.j2
+#    dest: /etc/zun/nova.conf
+#    owner: root
+#    group: root
+#    mode: '0644'
+#    backup: true
+#  notify:
+#    - Restart Nova API 
+#    - Restart Nova Scheduler
+#    - Restart Nova Conductor
+#    - Restart Nova Novncproxy
+
+#- name: Populate the zun-api database
+#  ansible.builtin.command: su -s /bin/sh -c "zun-manage api_db sync" nova
+
+#- name: Register the cell0 database
+#  ansible.builtin.command: su -s /bin/sh -c "zun-manage cell_v2 map_cell0" nova
+
+#- name: Create the cell1 cell
+#  ansible.builtin.command: su -s /bin/sh -c "zun-manage cell_v2 create_cell --name=cell1 --verbose" nova
+#  ignore_errors: yes
+
+#- name: Populate the zun database
+#  ansible.builtin.command: su -s /bin/sh -c "zun-manage db sync" nova
