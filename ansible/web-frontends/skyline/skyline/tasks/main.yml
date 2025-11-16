@@ -66,7 +66,7 @@
 - name: Create a skyline bootstrap container
   community.docker.docker_container:
     name: skyline_bootstrap
-    image: 99cloud/skyline:2025.2.1
+    image: 99cloud/skyline:2025.2
     state: started
     network_mode: host
     volumes:
@@ -74,7 +74,7 @@
       - /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml
       - /tmp/skyline:/tmp
     etc_hosts:
-      controller: 10.0.2.11
+      controller: "{{ ansible_host }}"
     env:
       KOLLA_BOOTSTRAP: ""
   tags:
@@ -99,7 +99,7 @@
 - name: Create a skyline container
   community.docker.docker_container:
     name: skyline
-    image: 99cloud/skyline:2025.2.1
+    image: 99cloud/skyline:2025.2
     state: started
 #    restart: true
     network_mode: host
@@ -111,6 +111,6 @@
       - /etc/skyline/skyline.yaml:/etc/skyline/skyline.yaml
       - /tmp/skyline:/tmp
     etc_hosts:
-      controller: 10.0.2.11
+      controller: "{{ ansible_host }}"
   tags:
     - skyline
