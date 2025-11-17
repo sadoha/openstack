@@ -11,9 +11,9 @@ all:
         compute-01:
           ansible_host: 10.0.2.31
           ansible_host_name: compute-01
-#        compute-02:
-#          ansible_host: 10.0.2.32
-#          ansible_host_name: compute-02
+        compute-02:
+          ansible_host: 10.0.2.32
+          ansible_host_name: compute-02
     block-storage:
       hosts:
         block-storage:
