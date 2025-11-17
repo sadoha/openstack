@@ -5,6 +5,9 @@
     name:
       - nova-compute
     state: present
+  tags:
+    - nova
+    - compute
 
 - name: Copy Nova configuration file to controller node
   ansible.builtin.template:
@@ -16,11 +19,17 @@
     mode: '0644'
     backup: true
   notify: Restart Nova Compute
+  tags:
+    - nova
+    - compute
 
 - name: Determine whether your compute node supports hardware acceleration for virtual machines
   ansible.builtin.command: egrep -c '(vmx|svm)' /proc/cpuinfo
   register: check_hardware_acceleration
   ignore_errors: yes
+  tags:
+    - nova
+    - compute
 
 - name: Copy Nova Compute configuration file
   ansible.builtin.template:
@@ -32,3 +41,6 @@
     backup: true
   when: check_hardware_acceleration.stdout == "0"
   notify: Restart Nova Compute
+  tags:
+    - nova
+    - compute

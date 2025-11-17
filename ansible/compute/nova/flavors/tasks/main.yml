@@ -11,6 +11,7 @@
     state: present
   tags:
     - nova
+    - flavors
 
 - name: Create the flavor m1.small
   openstack.cloud.compute_flavor:
@@ -23,6 +24,7 @@
     state: present
   tags:
     - nova
+    - flavors
 
 - name: Create the flavor m1.medium
   openstack.cloud.compute_flavor:
@@ -35,6 +37,7 @@
     state: present
   tags:
     - nova
+    - flavors
 
 - name: Create the flavor m1.large
   openstack.cloud.compute_flavor:
@@ -47,6 +50,7 @@
     state: present
   tags:
     - nova
+    - flavors
 
 - name: Create the flavor m1.xlarge
   openstack.cloud.compute_flavor:
@@ -59,6 +63,7 @@
     state: present
   tags:
     - nova
+    - flavors
 
 - name: Create the flavor m1.2xlarge
   openstack.cloud.compute_flavor:
@@ -71,3 +76,4 @@
     state: present
   tags:
     - nova
+    - flavors

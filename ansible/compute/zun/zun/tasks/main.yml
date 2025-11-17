@@ -5,11 +5,15 @@
     name:
       - python3-pip 
     state: present
+  tags:
+    - zun
 
 - name: Create a new group zun
   ansible.builtin.group:
     name: zun
     state: present
+  tags:
+    - zun
 
 - name: Create a new user zun and assign to groups zun
   ansible.builtin.user:
@@ -20,6 +24,8 @@
     home: /var/lib/zun
     state: present
     create_home: true
+  tags:
+    - zun
 
 - name: Create the zun directory if it does not exist
   ansible.builtin.file:
@@ -32,6 +38,8 @@
     - /etc/zun
   tags:
     - skylinie
+  tags:
+    - zun
 
 #- name: Copy Nova configuration file to controller node
 #  ansible.builtin.template:

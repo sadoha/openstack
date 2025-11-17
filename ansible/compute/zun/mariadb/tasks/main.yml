@@ -8,6 +8,7 @@
     - zun
   tags:
     - zun
+    - mariadb
 
 - name: Ensure zun database user is present
   community.mysql.mysql_user:
@@ -22,3 +23,4 @@
     - localhost
   tags:
     - zun
+    - mariadb

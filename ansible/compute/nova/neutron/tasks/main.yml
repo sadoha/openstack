@@ -5,6 +5,9 @@
     name:
       - neutron-openvswitch-agent
     state: present
+  tags:
+    - nova
+    - neutron
 
 - name: Copy Neutron Server configuration file
   ansible.builtin.template:
@@ -15,6 +18,9 @@
     mode: '0644'
     backup: true
   notify: Restart Neutron Openvswitch Agent
+  tags:
+    - nova
+    - neutron
 
 - name: Copy Neutron Openvswitch Agent configuration file
   ansible.builtin.template:
@@ -25,3 +31,6 @@
     mode: '0644'
     backup: true
   notify: Restart Neutron Openvswitch Agent
+  tags:
+    - nova
+    - neutron

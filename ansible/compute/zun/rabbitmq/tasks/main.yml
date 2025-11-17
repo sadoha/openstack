@@ -11,3 +11,4 @@
     state: present
   tags:
     - zun
+    - rabbitmq

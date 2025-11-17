@@ -10,6 +10,7 @@
     state: present
   tags:
     - nova
+    - keystone
 
 - name: Grant an admin role on the user in the project
   openstack.cloud.role_assignment:
@@ -20,6 +21,7 @@
     state: present
   tags:
     - nova
+    - keystone
 
 - name: Create a new service
   openstack.cloud.catalog_service:
@@ -30,6 +32,7 @@
      state: present
   tags:
     - nova
+    - keystone
 
 - name: Create an endpoint
   openstack.cloud.endpoint:
@@ -45,3 +48,4 @@
     - admin
   tags:
     - nova
+    - keystone

@@ -10,6 +10,7 @@
     - nova_cell0
   tags:
     - nova
+    - mariadb
 
 - name: Ensure nova database user is present
   community.mysql.mysql_user:
@@ -26,3 +27,4 @@
     - localhost
   tags:
     - nova
+    - mariadb

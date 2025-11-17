@@ -11,3 +11,4 @@
     state: present
   tags:
     - nova
+    - rabbitmq
