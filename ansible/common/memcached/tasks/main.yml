@@ -7,6 +7,7 @@
       - python3-memcache
     state: present
   tags:
+    - common
     - memcached
 
 - name: Copy Memcached configuration file to controller node
@@ -19,4 +20,5 @@
     backup: true
   notify: Restart Memcached
   tags:
+    - common
     - memcached

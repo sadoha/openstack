@@ -6,6 +6,7 @@
       - etcd-server
     state: present
   tags:
+    - common
     - etcd-server
 
 - name: Copy Etcd configuration file to controller node
@@ -18,4 +19,5 @@
     backup: true
   notify: Restart Etcd
   tags:
+    - common
     - etcd-server

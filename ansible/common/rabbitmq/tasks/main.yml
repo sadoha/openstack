@@ -6,6 +6,7 @@
       - rabbitmq-server
     state: present
   tags:
+    - common
     - rabbitmq-server
 
 - name: Copy Rabbitmq configuration file to controller node
@@ -18,6 +19,7 @@
     backup: true
   notify: Restart Rabbitmq
   tags:
+    - common
     - rabbitmq-server
 
 - name: Ensure anonymous guest user is absent
@@ -25,4 +27,5 @@
     user: guest 
     state: absent
   tags:
+    - common
     - rabbitmq-server

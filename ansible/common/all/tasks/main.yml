@@ -4,6 +4,7 @@
   community.general.ufw:
     state: disabled
   tags:
+    - common
     - all
 
 #- name: Execute add-apt-repository for cloud-archive:flamingo
@@ -20,6 +21,7 @@
   args:
     creates: /etc/apt/sources.list.d/cloudarchive-epoxy.list
   tags:
+    - common
     - all
 
 - name: Update apt cache and upgrade packages
@@ -27,12 +29,14 @@
     update_cache: yes
     upgrade: yes
   tags:
+    - common
     - all
 
 - name: Update hostnames
   hostname:
     name: "{{ ansible_host_name }}"
   tags:
+    - common
     - all
 
 - name: Add IP address of all hosts to all hosts
@@ -44,6 +48,7 @@
   when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.cluster }}"
   tags:
+    - common
     - all
 
 - name: Install required packages
@@ -59,4 +64,5 @@
       - net-tools
     state: present
   tags:
+    - common
     - all

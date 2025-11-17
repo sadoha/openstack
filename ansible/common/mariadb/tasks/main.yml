@@ -7,6 +7,7 @@
       - python3-pymysql
     state: present
   tags:
+    - common
     - mariadb-server
 
 - name: Copy Mariadb configuration file to controller node
@@ -19,4 +20,5 @@
     backup: true
   notify: Restart Mariadb
   tags:
+    - common
     - mariadb-server
