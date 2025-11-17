@@ -10,7 +10,9 @@
       - neutron-metadata-agent
       - neutron-l3-agent 
     state: present
-  register: install_neutron_output
+  tags:
+    - networking
+    - neutron
 
 - name: Copy the neutron configuration file to controller node
   ansible.builtin.template:
@@ -22,6 +24,9 @@
     backup: true
   notify:
     - Restart All Services
+  tags:
+    - networking
+    - neutron
 
 - name: Copy the ml2 configuration file to controller node
   ansible.builtin.template:
@@ -33,6 +38,9 @@
     backup: true
   notify:
     - Restart All Services
+  tags:
+    - networking
+    - neutron
 
 - name: Copy the metadata agent configuration file to controller node
   ansible.builtin.template:
@@ -44,6 +52,9 @@
     backup: true
   notify:
     - Restart All Services
+  tags:
+    - networking
+    - neutron
 
 - name: Copy the openvswitch agent configuration file to controller node
   ansible.builtin.template:
@@ -55,6 +66,9 @@
     backup: true
   notify:
     - Restart All Services
+  tags:
+    - networking
+    - neutron
 
 - name: Copy the dhcp agent configuration file to controller node
   ansible.builtin.template:
@@ -66,6 +80,12 @@
     backup: true
   notify:
     - Restart All Services
+  tags:
+    - networking
+    - neutron
 
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
+  tags:
+    - networking
+    - neutron
