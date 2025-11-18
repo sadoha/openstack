@@ -9,7 +9,9 @@
     domain: default
     state: present
   tags:
+    - web-frontends
     - skyline
+    - keystone
 
 - name: Grant an admin role on the user in the project
   openstack.cloud.role_assignment:
@@ -19,4 +21,6 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - web-frontends
     - skyline
+    - keystone

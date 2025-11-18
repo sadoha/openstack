@@ -6,7 +6,9 @@
     login_unix_socket: "{{ mysql_socket_path }}"
   register: mysql_db_output
   tags:
+    - web-frontends
     - skyline
+    - mariadb
 
 - name: Ensure skyline database user is present
   community.mysql.mysql_user:
@@ -19,4 +21,6 @@
     - "%"
     - localhost
   tags:
+    - web-frontends
     - skyline
+    - mariadb

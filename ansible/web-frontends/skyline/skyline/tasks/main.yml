@@ -6,6 +6,7 @@
       - docker.io
     state: present
   tags:
+    - web-frontends
     - skylinie
 
 - name: Remove a directory /tmp/skyline
@@ -13,6 +14,7 @@
     path: /tmp/skyline
     state: absent
   tags:
+    - web-frontends
     - skylinie
 
 - name: Create the skyline directory if it does not exist
@@ -25,6 +27,7 @@
     - /tmp/skyline
     - /var/log/skyline
   tags:
+    - web-frontends
     - skylinie
 
 ######################################################################################
@@ -49,6 +52,7 @@
     mode: '0644'
     backup: true
   tags:
+    - web-frontends
     - skyline
 
 ######################################################################################
@@ -61,6 +65,7 @@
     name: 99cloud/skyline:2025.2
     source: pull
   tags:
+    - web-frontends
     - skyline
 
 - name: Create a skyline bootstrap container
@@ -78,12 +83,14 @@
     env:
       KOLLA_BOOTSTRAP: ""
   tags:
+    - web-frontends
     - skyline
 
 - name: Pause for 15 seconds
   pause:
     seconds: 15
   tags:
+    - web-frontends
     - skyline
 
 - name: Remove a skyline bootstrap container
@@ -94,6 +101,7 @@
     - skyline_bootstrap
     - skyline 
   tags:
+    - web-frontends
     - skyline
 
 - name: Create a skyline container
@@ -113,4 +121,5 @@
     etc_hosts:
       controller: "{{ ansible_host }}"
   tags:
+    - web-frontends
     - skyline

@@ -6,6 +6,7 @@
       - openstack-dashboard
     state: present
   tags:
+    - web-frontends
     - horizon
 
 - name: Copy Dashboard configuration file to controller node
@@ -18,4 +19,5 @@
     backup: true
   notify: Restart Apache2
   tags:
+    - web-frontends
     - horizon
