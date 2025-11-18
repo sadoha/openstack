@@ -6,6 +6,11 @@
   tags:
     - nova
     - compute-finalize
+  tags:
+    - compute
+    - nova
+    - nova-compute
+    - compute-finalize
 
 - name: Discover compute hosts
   ansible.builtin.shell: |
@@ -13,5 +18,7 @@
   args:
     executable: /bin/sh
   tags:
+    - compute
     - nova
+    - nova-compute
     - compute-finalize
