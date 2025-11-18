@@ -10,19 +10,25 @@
     state: present
   register: install_cinder_output
   tags:
+    - storage
     - cinder
+    - rabbitmq
 
 - name: Create the LVM physical volume /dev/xvdb
   ansible.builtin.command: pvcreate /dev/xvdb 
   when: install_cinder_output.changed|bool == true
   tags:
+    - storage
     - cinder
+    - rabbitmq
 
 - name: Create the LVM volume group cinder-volumes
   ansible.builtin.command: vgcreate cinder-volumes /dev/xvdb
   when: install_cinder_output.changed|bool == true
   tags:
+    - storage
     - cinder
+    - rabbitmq
 
 - name: Copy the lvm configuration file to controller node
   ansible.builtin.template:
@@ -36,7 +42,9 @@
     - Restart TGT
     - Restart Cinder Volume
   tags:
+    - storage
     - cinder
+    - rabbitmq
 
 - name: Copy the Cinder configuration file to controller node
   ansible.builtin.template:
@@ -49,7 +57,9 @@
   notify:
     - Restart Cinder Volume
   tags:
+    - storage
     - cinder
+    - rabbitmq
 
 - name: Copy the tgt configuration file to controller node
   ansible.builtin.template:
@@ -62,4 +72,6 @@
   notify:
     - Restart TGT
   tags:
+    - storage
     - cinder
+    - rabbitmq

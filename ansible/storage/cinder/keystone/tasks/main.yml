@@ -9,7 +9,9 @@
     domain: default
     state: present
   tags:
+    - storage
     - cinder
+    - keystone
 
 - name: Grant an admin role on the user in the project
   openstack.cloud.role_assignment:
@@ -19,7 +21,9 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - storage
     - cinder
+    - keystone
 
 - name: Create a new service cinder
   openstack.cloud.catalog_service:
@@ -29,7 +33,9 @@
      description: "OpenStack Block Storage"
      state: present
   tags:
+    - storage
     - cinder
+    - keystone
 
 - name: Create an endpoint cinder
   openstack.cloud.endpoint:
@@ -44,4 +50,6 @@
     - internal
     - admin
   tags:
+    - storage
     - cinder
+    - keystone
