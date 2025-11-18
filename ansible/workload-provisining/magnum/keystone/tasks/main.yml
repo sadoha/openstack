@@ -9,7 +9,9 @@
     domain: default
     state: present
   tags:
+    - workload-provisining
     - magnum
+    - keystone
 
 - name: Grant an admin role on the user in the project
   openstack.cloud.role_assignment:
@@ -19,7 +21,9 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - workload-provisining
     - magnum
+    - keystone
 
 - name: Create a new service magnum
   openstack.cloud.catalog_service:
@@ -29,7 +33,9 @@
      description: "OpenStack Container Infrastructure Management Service"
      state: present
   tags:
+    - workload-provisining
     - magnum
+    - keystone
 
 - name: Create an endpoint magnum
   openstack.cloud.endpoint:
@@ -44,7 +50,9 @@
     - internal
     - admin
   tags:
+    - workload-provisining
     - magnum
+    - keystone
 
 # -----------------  Create a domain magnum -----------------
 
@@ -55,7 +63,9 @@
     description: "Owns users and projects created by magnum"
     state: present
   tags:
+    - workload-provisining
     - magnum
+    - keystone
 
 - name: Create the new OpenStack user magnum_domain_admin
   openstack.cloud.identity_user:
@@ -66,7 +76,9 @@
     domain: magnum
     state: present
   tags:
+    - workload-provisining
     - magnum
+    - keystone
 
 - name: Grant an admin role on the magnum_domain_admin user in the project
   openstack.cloud.role_assignment:
@@ -76,4 +88,6 @@
     domain: magnum
     state: present
   tags:
+    - workload-provisining
     - magnum
+    - keystone

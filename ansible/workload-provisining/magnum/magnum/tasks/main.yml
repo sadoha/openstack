@@ -7,7 +7,9 @@
       - magnum-conductor 
       - python3-magnumclient
     state: present
-  register: install_magnum_output
+  tags:
+    - workload-provisining
+    - magnum
 
 - name: Copy the Magnum configuration file to controller node
   ansible.builtin.template:
@@ -20,6 +22,12 @@
   notify:
     - Restart Magnum API Services
     - Restart Magnum Conductor Services
+  tags:
+    - workload-provisining
+    - magnum
 
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "magnum-db-manage upgrade" magnum
+  tags:
+    - workload-provisining
+    - magnum

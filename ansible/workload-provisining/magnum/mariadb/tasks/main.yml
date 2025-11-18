@@ -7,7 +7,9 @@
   with_items:
     - magnum
   tags:
+    - workload-provisining
     - magnum
+    - mariadb
 
 - name: Ensure magnum database user is present
   community.mysql.mysql_user:
@@ -21,4 +23,6 @@
     - "%"
     - localhost
   tags:
+    - workload-provisining
     - magnum
+    - mariadb
