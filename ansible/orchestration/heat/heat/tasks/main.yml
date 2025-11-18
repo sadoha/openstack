@@ -7,6 +7,9 @@
       - heat-api-cfn 
       - heat-engine
     state: present
+  tags:
+    - orchestration
+    - heat
 
 - name: Copy the Heat configuration file to controller node
   ansible.builtin.template:
@@ -20,6 +23,12 @@
     - Restart Heat API
     - Restart Heat API CFG
     - Restart Heat Engine
+  tags:
+    - orchestration
+    - heat
 
 - name: Populate the database
   ansible.builtin.command: su -s /bin/sh -c "heat-manage db_sync" heat
+  tags:
+    - orchestration
+    - heat

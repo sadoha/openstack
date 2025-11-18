@@ -9,7 +9,9 @@
     domain: default
     state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Grant an admin role on the user in the project
   openstack.cloud.role_assignment:
@@ -19,7 +21,9 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Create a new service heat
   openstack.cloud.catalog_service:
@@ -29,7 +33,9 @@
      description: "Orchestration"
      state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Create a new service heat-cfn
   openstack.cloud.catalog_service:
@@ -39,7 +45,9 @@
      description: "CloudFormation"
      state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Create an endpoint heat
   openstack.cloud.endpoint:
@@ -54,7 +62,9 @@
     - internal
     - admin
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Create an endpoint heat-cfn
   openstack.cloud.endpoint:
@@ -69,7 +79,9 @@
     - internal
     - admin
   tags:
+    - orchestration
     - heat
+    - keystone
 
 # -----------------  Create a domain heat -----------------
 
@@ -80,7 +92,9 @@
     description: "Stack projects and users"
     state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Create the new OpenStack user heat_domain_admin
   openstack.cloud.identity_user:
@@ -91,7 +105,9 @@
     domain: heat
     state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Grant an admin role on the heat_domain_admin user in the project
   openstack.cloud.role_assignment:
@@ -101,7 +117,9 @@
     domain: heat
     state: present
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Create a role heat_stack_owner
   openstack.cloud.identity_role:
@@ -112,7 +130,9 @@
     - heat_stack_owner
     - heat_stack_user
   tags:
+    - orchestration
     - heat
+    - keystone
 
 - name: Grant an heat_stack_owner role on the to admin user in the project
   openstack.cloud.role_assignment:
@@ -122,4 +142,6 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - orchestration
     - heat
+    - keystone
