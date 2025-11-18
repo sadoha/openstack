@@ -5,6 +5,10 @@
     url: https://cloud-images.ubuntu.com/releases/noble/release-20251026/ubuntu-24.04-server-cloudimg-amd64.img
     dest: /tmp/ubuntu-24.04-server-cloudimg-amd64.img
     mode: '0644'
+  tags:
+    - shared-services
+    - glance
+    - images
 
 - name: Upload an image Ubuntu-24.04-server-cloudimg-amd64
   openstack.cloud.image:
@@ -18,17 +22,29 @@
     properties:
       cpu_arch: x86_64
       distro: Ubuntu
+  tags:
+    - shared-services
+    - glance
+    - images
 
 - name: Remove temporary ubuntu-24.04-server-cloudimg-amd64.img file
   ansible.builtin.file:
     path: /tmp/ubuntu-24.04-server-cloudimg-amd64.img
     state: absent
+  tags:
+    - shared-services
+    - glance
+    - images
 
 - name: Download a CentOS-Stream-GenericCloud-10-latest-x86_64
   ansible.builtin.get_url:
     url: https://cloud.centos.org/centos/10-stream/x86_64/images/CentOS-Stream-GenericCloud-10-latest.x86_64.qcow2
     dest: /tmp/CentOS-Stream-GenericCloud-10-latest.x86_64.qcow2
     mode: '0644'
+  tags:
+    - shared-services
+    - glance
+    - images
 
 - name: Upload an image CentOS-Stream-GenericCloud-10-latest-x86_64
   openstack.cloud.image:
@@ -42,8 +58,16 @@
     properties:
       cpu_arch: x86_64
       distro: CentOS
+  tags:
+    - shared-services
+    - glance
+    - images
 
 - name: Remove temporary CentOS-Stream-GenericCloud-10-latest.x86_64.qcow2 file
   ansible.builtin.file:
     path: /tmp/CentOS-Stream-GenericCloud-10-latest.x86_64.qcow2
     state: absent
+  tags:
+    - shared-services
+    - glance
+    - images

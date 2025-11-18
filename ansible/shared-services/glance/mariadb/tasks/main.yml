@@ -6,7 +6,9 @@
     login_unix_socket: "{{ mysql_socket_path }}"
   register: mysql_db_output
   tags:
+    - shared-services
     - glance
+    - mariadb
 
 - name: Ensure glance database user is present
   community.mysql.mysql_user:
@@ -19,4 +21,6 @@
     - "%"
     - localhost
   tags:
+    - shared-services
     - glance
+    - mariadb

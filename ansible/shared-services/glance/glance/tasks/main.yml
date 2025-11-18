@@ -7,6 +7,7 @@
     state: present
   register: install_glance_output
   tags:
+    - shared-services
     - glance
 
 - name: Copy glance-api configuration file to controller node
@@ -18,6 +19,7 @@
     mode: '0644'
     backup: true
   tags:
+    - shared-services
     - glance
 
 - name: Get the ID of the image endpoint you created earlier
@@ -28,6 +30,7 @@
     executable: /bin/sh
   register: image_endpoint_id_output
   tags:
+    - shared-services
     - glance
 
 - name: Replace ENDPOINT_ID with the ID of the image endpoint you created earlier
@@ -37,11 +40,13 @@
     replace: "{{ image_endpoint_id_output.stdout }}"
   notify: Restart Glance API
   tags:
+    - shared-services
     - glance
 
 - name: Populate the Image service database
   ansible.builtin.command: su -s /bin/sh -c "glance-manage db_sync" glance
   tags:
+    - shared-services
     - glance
 
 - name: Register quota limits
@@ -54,3 +59,6 @@
   args:
     executable: /bin/sh
   when: install_glance_output.changed|bool == true
+  tags:
+    - shared-services
+    - glance

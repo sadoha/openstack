@@ -9,7 +9,9 @@
     domain: default
     state: present
   tags:
+    - shared-services
     - placement
+    - keystone
 
 - name: Grant an admin role on the user in the project
   openstack.cloud.role_assignment:
@@ -19,7 +21,9 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - shared-services
     - placement
+    - keystone
 
 - name: Create a new service
   openstack.cloud.catalog_service:
@@ -29,7 +33,9 @@
      description: "OpenStack Placement API Service"
      state: present
   tags:
+    - shared-services
     - placement
+    - keystone
 
 - name: Create endpoints
   openstack.cloud.endpoint:
@@ -44,4 +50,6 @@
     - internal
     - admin
   tags:
+    - shared-services
     - placement
+    - keystone

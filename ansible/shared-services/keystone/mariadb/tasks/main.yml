@@ -5,7 +5,9 @@
     name: keystone
     login_unix_socket: "{{ mysql_socket_path }}"
   tags:
+    - shared-services
     - keystone
+    - mariadb
 
 - name: Ensure keystone database user is present
   community.mysql.mysql_user:
@@ -18,4 +20,6 @@
     - "%"
     - localhost
   tags:
+    - shared-services
     - keystone
+    - mariadb
