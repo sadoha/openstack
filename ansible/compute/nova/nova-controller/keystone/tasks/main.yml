@@ -9,7 +9,9 @@
     domain: default
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - keystone
 
 - name: Grant an admin role on the user in the project
@@ -20,7 +22,9 @@
     project: "{{ project_name }}"
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - keystone
 
 - name: Create a new service
@@ -31,7 +35,9 @@
      description: "OpenStack Compute Service"
      state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - keystone
 
 - name: Create an endpoint
@@ -47,5 +53,7 @@
     - internal
     - admin
   tags:
+    - compute
     - nova
+    - nova-controller
     - keystone

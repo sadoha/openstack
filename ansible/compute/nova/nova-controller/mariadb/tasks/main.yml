@@ -9,7 +9,9 @@
     - nova_api
     - nova_cell0
   tags:
+    - compute
     - nova
+    - nova-controller
     - mariadb
 
 - name: Ensure nova database user is present
@@ -26,5 +28,7 @@
     - "%"
     - localhost
   tags:
+    - compute
     - nova
+    - nova-controller
     - mariadb

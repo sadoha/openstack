@@ -9,7 +9,9 @@
       - nova-scheduler
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - controller
 
 - name: Copy Nova configuration file to controller node
@@ -26,30 +28,40 @@
     - Restart Nova Conductor
     - Restart Nova Novncproxy
   tags:
+    - compute
     - nova
+    - nova-controller
     - controller
 
 - name: Populate the nova-api database
   ansible.builtin.command: su -s /bin/sh -c "nova-manage api_db sync" nova
   tags:
+    - compute
     - nova
+    - nova-controller
     - controller
 
 - name: Register the cell0 database
   ansible.builtin.command: su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
   tags:
+    - compute
     - nova
+    - nova-controller
     - controller
 
 - name: Create the cell1 cell
   ansible.builtin.command: su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
   ignore_errors: yes
   tags:
+    - compute
     - nova
+    - nova-controller
     - controller
 
 - name: Populate the nova database
   ansible.builtin.command: su -s /bin/sh -c "nova-manage db sync" nova
   tags:
+    - compute
     - nova
+    - nova-controller
     - controller

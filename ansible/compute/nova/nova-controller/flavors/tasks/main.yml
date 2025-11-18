@@ -10,7 +10,9 @@
     disk: 8
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - flavors
 
 - name: Create the flavor m1.small
@@ -23,7 +25,9 @@
     disk: 8
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - flavors
 
 - name: Create the flavor m1.medium
@@ -36,7 +40,9 @@
     disk: 8
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - flavors
 
 - name: Create the flavor m1.large
@@ -49,7 +55,9 @@
     disk: 16
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - flavors
 
 - name: Create the flavor m1.xlarge
@@ -62,7 +70,9 @@
     disk: 16
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - flavors
 
 - name: Create the flavor m1.2xlarge
@@ -75,5 +85,7 @@
     disk: 32
     state: present
   tags:
+    - compute
     - nova
+    - nova-controller
     - flavors
