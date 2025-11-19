@@ -8,10 +8,10 @@
 #  import_playbook: web-frontends/skyline/main.yml
 #- name: Set up Web Frontends Horizon
 #  import_playbook: web-frontends/horizon/main.yml
-- name: Set up the shared image services Glance
-  import_playbook: shared-services/glance/main.yml
-#- name: Set up the shared services Placement
-#  import_playbook: shared-services/placement/main.yml
+#- name: Set up the shared image services Glance
+#  import_playbook: shared-services/glance/main.yml
+- name: Set up the shared services Placement
+  import_playbook: shared-services/placement/main.yml
 #- name: Set up the Nova controller services
 #  import_playbook: compute/nova/nova-controller/main.yml
 #- name: Set up the Nova compute services
