@@ -14,7 +14,7 @@ Below you can find an example of the vaults.yml file. This file should be create
 project_name:         'kpi'
 user_domain_name:     'Default'
 project_domain_name:  'Default'
-proxy_server:         '44.192.88.16'
+proxy_server:         '18.233.223.195'
 ##
 admin_project_name:   'admin'
 admin_username:       'admin'
@@ -33,6 +33,12 @@ skyline_rabbit_password:        'ERbVDvhKpM64'
 skyline_identity_password:      'XBS9qvregbeQ'
 ##
 ## Horizon variables
+##
+## Ceilometer variables
+##
+ceilometer_mariadb_password:    '9PfZaAGpvfdR'
+ceilometer_rabbit_password:     'yYPzkbtsNZMr'
+ceilometer_identity_password:   'wnQ8aBSujEqd'
 ##
 ## Glance variables
 ##
