@@ -39,12 +39,12 @@
     path: /root/.bashrc
     block: |
       # Custom environment variables
-      export OS_USERNAME=admin
+      export OS_USERNAME={{ admin_username }}
       export OS_PASSWORD={{ keystone_bootstrap_password }}
       export OS_BOOTSTRAP_PASSWORD={{ keystone_bootstrap_password }}
-      export OS_PROJECT_NAME=admin
-      export OS_USER_DOMAIN_NAME=Default
-      export OS_PROJECT_DOMAIN_NAME=Default
+      export OS_PROJECT_NAME={{ admin_project_name }}
+      export OS_USER_DOMAIN_NAME={{ domain_name }}
+      export OS_PROJECT_DOMAIN_NAME={{ domain_name }}
       export OS_AUTH_URL=http://controller:5000/v3
       export OS_IDENTITY_API_VERSION=3
     state: present
