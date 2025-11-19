@@ -1,0 +1,15 @@
+---
+# tasks file for rabbitmq
+- name: Ensure ceilometer user is present
+  rabbitmq_user: 
+    user: gnocchi
+    password: "{{ ceilometer_rabbit_password }}" 
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - rabbitmq

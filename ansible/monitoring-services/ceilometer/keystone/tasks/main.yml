@@ -1,0 +1,93 @@
+---
+# tasks file for keystone
+- name: Create the new OpenStack user
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "ceilometer"
+    password: "{{ ceilometer_identity_password }}"
+    description: "OpenStack ceilometer user"
+    domain: default
+    state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+
+- name: Grant an admin role on the user in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: ceilometer
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+
+- name: Create a new service ceilometer
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: ceilometer
+     type: metering
+     description: "Telemetry"
+     state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+
+- name: Create the new OpenStack user gnocchi
+  openstack.cloud.identity_user:
+    cloud: "{{ openstack_auth }}"
+    name: "gnocchi"
+    password: "{{ ceilometer_domain_identity_password }}"
+    description: "OpenStack gnocchi user"
+    domain: default
+    state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+
+- name: Grant an admin role on the user gnocchi in the project
+  openstack.cloud.role_assignment:
+    cloud: "{{ openstack_auth }}"
+    user: gnocchi
+    role: admin
+    project: "{{ project_name }}"
+    state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+
+- name: Create a new service gnocchi
+  openstack.cloud.catalog_service:
+     cloud: "{{ openstack_auth }}"
+     name: gnocchi
+     type: metric
+     description: "Metric Service"
+     state: present
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+
+- name: Create an endpoint metric
+  openstack.cloud.endpoint:
+     cloud: "{{ openstack_auth }}"
+     service: metric
+     endpoint_interface: "{{ item }}"
+     url: "http://controller:8041/"
+     region: RegionOne
+     state: present
+  with_items:
+    - public
+    - internal
+    - admin
+  tags:
+    - monitoring-services
+    - ceilometer
+    - keystone
+

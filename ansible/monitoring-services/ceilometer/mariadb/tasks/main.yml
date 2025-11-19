@@ -1,0 +1,28 @@
+---
+# tasks file for mariadb
+- name: Ensure ceilometer database is present
+  community.mysql.mysql_db:
+    name: "{{ item }}"
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - gnocchi
+  tags:
+    - monitoring-services
+    - ceilometer
+    - mariadb
+
+- name: Ensure ceilometer database user is present
+  community.mysql.mysql_user:
+    name: gnocchi
+    host: "{{ item }}"
+    password: "{{ ceilometer_mariadb_password }}"
+    priv:
+      'gnocchi.*': 'ALL'
+    login_unix_socket: "{{ mysql_socket_path }}"
+  with_items:
+    - "%"
+    - localhost
+  tags:
+    - monitoring-services
+    - ceilometer
+    - mariadb
