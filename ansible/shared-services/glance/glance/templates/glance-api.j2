@@ -3,41 +3,24 @@ use_keystone_limits = True
 enabled_backends=fs:file
 transport_url = rabbit://glance:{{ glance_rabbit_password }}@controller:5672/
 [barbican]
-
 [barbican_service_user]
-
 [cinder]
-
 [cors]
-
 [database]
 connection = mysql+pymysql://glance:{{ glance_mariadb_password }}@controller/glance
-
 [file]
-
 [glance.store.http.store]
-
 [glance.store.rbd.store]
-
 [glance.store.s3.store]
-
 [glance.store.swift.store]
-
 [glance.store.vmware_datastore.store]
-
 [glance_store]
-
 default_backend = fs
-
 [fs]
 filesystem_store_datadir = /var/lib/glance/images
-
 [healthcheck]
-
 [image_format]
-
 [key_manager]
-
 [keystone_authtoken]
 www_authenticate_uri = http://controller:5000/v3/
 auth_url = http://controller:5000/
@@ -49,11 +32,8 @@ project_name = {{ project_name }}
 username = glance
 password = {{ glance_identity_password }}
 service_token_roles_required = true
-
 [os_brick]
-
 [oslo_concurrency]
-
 [oslo_limit]
 auth_url = http://controller:5000
 auth_type = password
@@ -63,28 +43,16 @@ system_scope = all
 password = {{ glance_identity_password }}
 endpoint_id = ENDPOINT_ID
 region_name = RegionOne
-
 [oslo_messaging_kafka]
-
 [oslo_messaging_notifications]
-
 [oslo_messaging_rabbit]
-
 [oslo_middleware]
-
 [oslo_policy]
-
 [oslo_reports]
-
 [paste_deploy]
 flavor = keystone
-
 [profiler]
-
 [task]
-
 [taskflow_executor]
-
 [vault]
-
 [wsgi]
