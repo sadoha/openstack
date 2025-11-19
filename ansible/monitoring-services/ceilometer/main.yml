@@ -23,10 +23,10 @@
   roles:
     - keystone
 
-- name: Set up the Ceilometer project is a data collection service 
-  hosts: controller
-  become: true
-  vars_files:
-    - ../../vaults.yml
-  roles:
-    - ceilometer
+#- name: Set up the Ceilometer project is a data collection service 
+#  hosts: controller
+#  become: true
+#  vars_files:
+#    - ../../vaults.yml
+#  roles:
+#    - ceilometer

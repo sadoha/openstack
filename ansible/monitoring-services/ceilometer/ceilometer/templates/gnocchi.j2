@@ -1,0 +1,33 @@
+[DEFAULT]
+[amqp1d]
+[api]
+auth_mode = keystone
+port = 8041
+uwsgi_mode = http-socket
+[archive_policy]
+[cors]
+[healthcheck]
+[incoming]
+[indexer]
+url = mysql+pymysql://gnocchi:{{ ceilometer_mariadb_password }}@controller/gnocchi
+[keystone_authtoken]
+auth_type = password
+auth_url = http://controller:5000/v3/
+project_domain_name = {{ project_domain_name }}
+user_domain_name = {{ user_domain_name }}
+project_name = {{ project_name }}
+username = gnocchi
+password = {{ ceilometer_identity_password }}
+interface = internalURL
+region_name = RegionOne
+auth_protocol = http
+[metricd]
+[oslo_policy]
+[statsd]
+[storage]
+# coordination_url is not required but specifying one will improve
+# performance with better workload division across workers.
+# coordination_url = redis://controller:6379
+file_basepath = /var/lib/gnocchi
+driver = file
+

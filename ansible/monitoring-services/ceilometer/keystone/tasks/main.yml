@@ -41,7 +41,7 @@
   openstack.cloud.identity_user:
     cloud: "{{ openstack_auth }}"
     name: "gnocchi"
-    password: "{{ ceilometer_domain_identity_password }}"
+    password: "{{ ceilometer_identity_password }}"
     description: "OpenStack gnocchi user"
     domain: default
     state: present
@@ -77,7 +77,7 @@
 - name: Create an endpoint metric
   openstack.cloud.endpoint:
      cloud: "{{ openstack_auth }}"
-     service: metric
+     service: gnocchi
      endpoint_interface: "{{ item }}"
      url: "http://controller:8041/"
      region: RegionOne

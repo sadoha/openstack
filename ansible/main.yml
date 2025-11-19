@@ -8,6 +8,8 @@
   import_playbook: web-frontends/skyline/main.yml
 - name: Set up Web Frontends Horizon
   import_playbook: web-frontends/horizon/main.yml
+- name: Set up the Ceilometer service 
+  import_playbook: monitoring-services/ceilometer/main.yml
 - name: Set up the shared image services Glance
   import_playbook: shared-services/glance/main.yml
 - name: Set up the shared services Placement

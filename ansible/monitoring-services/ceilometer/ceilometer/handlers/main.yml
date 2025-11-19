@@ -1,19 +1,13 @@
 ---
 # handlers file for heat
-- name: Restart Heat API
+- name: Restart Gnocchi API
   ansible.builtin.systemd:
-    name: heat-api
+    name: gnocchi-api
     enabled: true
     state: restarted
 
-- name: Restart Heat API CFG
+- name: Restart Gnocchi Metricd
   ansible.builtin.systemd:
-    name: heat-api-cfn
-    enabled: true
-    state: restarted
-
-- name: Restart Heat Engine
-  ansible.builtin.systemd:
-    name: heat-engine
+    name: gnocchi-metricd
     enabled: true
     state: restarted
