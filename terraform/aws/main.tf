@@ -217,7 +217,7 @@ resource "aws_network_interface" "private_network_controller" {
     device_index = 2
   }
 }
-/*
+
 resource "aws_instance" "compute_01" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.large"
@@ -246,7 +246,7 @@ resource "aws_network_interface" "private_network_compute_01" {
     device_index = 2
   }
 }
-
+/*
 resource "aws_instance" "compute_02" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.large"
@@ -275,7 +275,7 @@ resource "aws_network_interface" "private_network_compute_02" {
     device_index = 2
   }
 }
-
+*/
 resource "aws_instance" "block_storage" {
   ami                         = "ami-0360c520857e3138f"
   instance_type               = "t2.micro"
@@ -304,4 +304,3 @@ resource "aws_instance" "block_storage" {
     Name = "block-storage"
   }
 }
-*/
