@@ -707,7 +707,6 @@ transport_url = rabbit://keystone:{{ keystone_rabbit_password }}@controller:5672
 
 
 [database]
-connection = mysql+pymysql://keystone:{{ keystone_mariadb_password }}@controller/keystone
 
 #
 # From oslo.db
@@ -721,7 +720,7 @@ connection = mysql+pymysql://keystone:{{ keystone_mariadb_password }}@controller
 
 # The SQLAlchemy connection string to use to connect to the database. (string
 # value)
-#connection = <None>
+connection = mysql+pymysql://keystone:{{ keystone_mariadb_password }}@controller/keystone
 
 # The SQLAlchemy connection string to use to connect to the slave database.
 # (string value)

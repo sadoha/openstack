@@ -43,8 +43,8 @@
       export OS_PASSWORD={{ keystone_bootstrap_password }}
       export OS_BOOTSTRAP_PASSWORD={{ keystone_bootstrap_password }}
       export OS_PROJECT_NAME={{ admin_project_name }}
-      export OS_USER_DOMAIN_NAME={{ domain_name }}
-      export OS_PROJECT_DOMAIN_NAME={{ domain_name }}
+      export OS_USER_DOMAIN_NAME={{ user_domain_name }}
+      export OS_PROJECT_DOMAIN_NAME={{ project_domain_name }}
       export OS_AUTH_URL=http://controller:5000/v3
       export OS_IDENTITY_API_VERSION=3
     state: present
@@ -84,7 +84,7 @@
   openstack.cloud.project:
     cloud: "{{ openstack_auth }}"
     description: "Tha {{ project_name }} project" 
-    domain: Default
+    domain: "{{ project_domain_name }}"
     is_enabled: True
     name: "{{ project_name }}"
     extra_specs:

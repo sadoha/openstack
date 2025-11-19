@@ -1,28 +1,28 @@
 ---
 # file: main.yml
-- name: Set up common tools and applications
-  import_playbook: common/main.yml
-- name: Set up the shared services Keystone
-  import_playbook: shared-services/keystone/main.yml
-- name: Set up Web Frontends Skyline
-  import_playbook: web-frontends/skyline/main.yml
-- name: Set up Web Frontends Horizon
-  import_playbook: web-frontends/horizon/main.yml
+#- name: Set up common tools and applications
+#  import_playbook: common/main.yml
+#- name: Set up the shared services Keystone
+#  import_playbook: shared-services/keystone/main.yml
+#- name: Set up Web Frontends Skyline
+#  import_playbook: web-frontends/skyline/main.yml
+#- name: Set up Web Frontends Horizon
+#  import_playbook: web-frontends/horizon/main.yml
 - name: Set up the shared image services Glance
   import_playbook: shared-services/glance/main.yml
-- name: Set up the shared services Placement
-  import_playbook: shared-services/placement/main.yml
-- name: Set up the Nova controller services
-  import_playbook: compute/nova/nova-controller/main.yml
-- name: Set up the Nova compute services
-  import_playbook: compute/nova/nova-compute/main.yml
-- name: Set up the networking
-  import_playbook: networking/neutron/main.yml
-- name: Set up the orchestrate composite cloud applications
-  import_playbook: orchestration/heat/main.yml
-#- name: Set up the container service
-#  import_playbook: compute/zun/main.yml
-- name: Set up the Container Infrastructure Management services
-  import_playbook: workload-provisining/magnum/main.yml
-- name: Set up the OpenStack Block Storage service
-  import_playbook: storage/cinder/main.yml
+#- name: Set up the shared services Placement
+#  import_playbook: shared-services/placement/main.yml
+#- name: Set up the Nova controller services
+#  import_playbook: compute/nova/nova-controller/main.yml
+#- name: Set up the Nova compute services
+#  import_playbook: compute/nova/nova-compute/main.yml
+#- name: Set up the networking
+#  import_playbook: networking/neutron/main.yml
+#- name: Set up the orchestrate composite cloud applications
+#  import_playbook: orchestration/heat/main.yml
+##- name: Set up the container service
+##  import_playbook: compute/zun/main.yml
+#- name: Set up the Container Infrastructure Management services
+#  import_playbook: workload-provisining/magnum/main.yml
+#- name: Set up the OpenStack Block Storage service
+#  import_playbook: storage/cinder/main.yml

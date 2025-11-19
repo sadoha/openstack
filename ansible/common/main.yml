@@ -17,11 +17,11 @@
   roles:
     - memcached
 
-- name: Set up the strongly consistent key-value store
-  hosts: controller
-  become: true
-  roles:
-    - etcd
+#- name: Set up the strongly consistent key-value store
+#  hosts: controller
+#  become: true
+#  roles:
+#    - etcd
 
 - name: Set up the message broker
   hosts: controller
