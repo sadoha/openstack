@@ -4,7 +4,6 @@
   community.mysql.mysql_db:
     name: skyline
     login_unix_socket: "{{ mysql_socket_path }}"
-  register: mysql_db_output
   tags:
     - web-frontends
     - skyline

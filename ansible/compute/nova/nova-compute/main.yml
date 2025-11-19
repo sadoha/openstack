@@ -3,7 +3,7 @@
   hosts: computes
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - neutron
 
@@ -11,7 +11,7 @@
   hosts: computes
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - compute
 
@@ -19,6 +19,6 @@
   hosts: controller
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - compute-finalize

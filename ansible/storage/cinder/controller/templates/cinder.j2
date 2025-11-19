@@ -10,24 +10,19 @@ state_path = /var/lib/cinder
 lock_path = /var/lock/cinder
 volumes_dir = /var/lib/cinder/volumes
 enabled_backends = lvm
-
 my_ip = {{ ansible_host }}
-
 transport_url = rabbit://cinder:{{ cinder_rabbit_password }}@controller:5672/
-
 [database]
 connection = mysql+pymysql://cinder:{{ cinder_mariadb_password }}@controller/cinder
-
 [keystone_authtoken]
 www_authenticate_uri = http://controller:5000/v3/
 auth_url = http://controller:5000/
 memcached_servers = controller:11211
 auth_type = password
-project_domain_name = default
-user_domain_name = default
+project_domain_name = {{ project_domain_name }}
+user_domain_name = {{ user_domain_name }}
 project_name = {{ project_name }}
 username = cinder
 password = {{ cinder_identity_password }}
-
 [oslo_concurrency]
 lock_path = /var/lib/cinder/tmp

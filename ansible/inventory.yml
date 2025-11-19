@@ -6,11 +6,11 @@ all:
         controller:
           ansible_host: 10.0.2.11
           ansible_host_name: controller
-#    computes:
-#      hosts:
-#        compute-01:
-#          ansible_host: 10.0.2.31
-#          ansible_host_name: compute-01
+    computes:
+      hosts:
+        compute-01:
+          ansible_host: 10.0.2.31
+          ansible_host_name: compute-01
 #        compute-02:
 #          ansible_host: 10.0.2.32
 #          ansible_host_name: compute-02
@@ -22,7 +22,7 @@ all:
     cluster:
       children:
         controller: {}
-#        computes: {}
+        computes: {}
 #        block-storage: {}
   vars:
     ansible_become: true

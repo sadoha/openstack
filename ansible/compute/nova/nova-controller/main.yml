@@ -3,7 +3,7 @@
   hosts: controller
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - mariadb
 
@@ -11,7 +11,7 @@
   hosts: controller
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - rabbitmq
 
@@ -19,7 +19,7 @@
   hosts: controller
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - keystone
 
@@ -27,7 +27,7 @@
   hosts: controller
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - controller
 
@@ -35,6 +35,6 @@
   hosts: controller
   become: true
   vars_files:
-    - ../../vaults.yml
+    - ../../../vaults.yml
   roles:
     - flavors
